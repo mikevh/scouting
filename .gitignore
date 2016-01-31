@@ -1,5 +1,7 @@
+lib
 packages/
 bin/
 debug/
 *.suo
 *.user
+node_modules
