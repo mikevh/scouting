@@ -10,11 +10,11 @@ namespace Boiler
             new AppHost().Init();
         }
 
-        protected void Application_BeginRequest(object sender, EventArgs e) {
-            string url = Request.Url.LocalPath;
-            if (!File.Exists(Context.Server.MapPath(url))) {
-                Context.RewritePath("/index.html");
-            }
-        }
+        //protected void Application_BeginRequest(object sender, EventArgs e) {
+        //    string url = Request.Url.LocalPath;
+        //    if (!File.Exists(Context.Server.MapPath(url))) {
+        //        Context.RewritePath("/index.html");
+        //    }
+        //}
     }
 }

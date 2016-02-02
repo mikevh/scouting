@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <title>Login</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+
+<ng-view></ng-view>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular-route/angular-route.min.js"></script>
+<script>
+    (function() {
+        'use strict';
+
+        var module = angular.module('app', ['ngRoute']);
+
+        module.config([
+            '$routeProvider',
+            function($routeProvider) {
+                $routeProvider.
+                    //when('/forgotpassword', {
+                    //    templateUrl: 'app/login/forgotpassword.html',
+                    //    controller: 'ForgotPasswordController'
+                    //}).
+                    //when('/passwordreset/:id', {
+                    //    templateUrl: 'app/login/resetpassword.html',
+                    //    controller: 'ResetPasswordController'
+                    //}).
+                    when('/', {
+                        templateUrl: 'app/login/login.html',
+                        controller: 'LoginController'
+                    }).
+                    otherwise({
+                        redirectTo: '/'
+                    });
+            }
+        ]);
+
+        module.factory('EmailValidator', function() {
+            var re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+            var validate = function(email) {
+                return re.test(email);
+            }
+            return {
+                Validate: validate
+            }
+        });
+
+        module.factory('QuerystringService', [
+            '$location', function($location) {
+                var get_querystring_parameter = function(name) {
+                    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                        results = regex.exec($location.$$absUrl);
+                    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+                };
+                return {
+                    GetQuerystringParameter: get_querystring_parameter
+                }
+            }
+        ]);
+
+        module.factory('LoginService', [
+            '$http', '$q', 'EmailValidator', function($http, $q, EmailValidator) {
+                var authenticate = function(login) {
+                    return $http.post('/api/auth/credentials', { UserName: login.user_name, Password: login.password, RememberMe: login.remember_me });
+                };
+                //var forgot_password = function (email) {
+                //    if (EmailValidator.Validate(email)) {
+                //        return $http.post('/api/resetpassword', { email: email });
+                //    } else {
+                //        return $q.reject('Invalid Email');
+                //    }
+                //};
+                //var reset_password = function (reset) {
+                //    return $http.post('/api/resetpasswordpost', { token: reset.token, password: reset.password, passwordverify: reset.passwordverify });
+                //};
+                //var validate_reset_password = function (token) {
+                //    return $http.post('/api/resetpasswordverify', { token: token });
+                //};
+                var password_invalid = function(password) {
+                    if (!password || !password.length || password.length < 8) {
+                        return "password must be at least 8 characters";
+                    }
+                    var has_upper_case = /[A-Z]/.test(password);
+                    var has_lower_case = /[a-z]/.test(password);
+                    var has_numbers = /\d/.test(password);
+                    var has_nonalphas = /\W/.test(password);
+                    if (has_upper_case + has_lower_case + has_numbers < 3) {
+                        return "password must have at least one lower case, one upper case and one number";
+                    }
+                    return undefined;
+                }
+                return {
+                    Authenticate: authenticate,
+                    //ForgotPassword: forgot_password,
+                    //ResetPassword: reset_password,
+                    //ValidateReset: validate_reset_password,
+                    PasswordInvalid: password_invalid
+                }
+            }
+        ]);
+
+        module.controller('LoginController', [
+            '$scope', '$http', '$location', '$window', 'LoginService', 'QuerystringService',
+            function($scope, $http, $location, $window, LoginService, QuerystringService) {
+                $scope.login = { user_name: '', password: '', remember_me: true };
+                $scope.alerts = [];
+
+                $scope.close_alert = function(index) {
+                    $scope.alerts.splice(index, 1);
+                };
+
+                var add_alert = function(message, type) {
+                    type = type || 'danger';
+                    $scope.alerts.push({ msg: message, type: type });
+                };
+
+                var success_fn = function() {
+                    var url = QuerystringService.GetQuerystringParameter('redirect');
+                    if (!url || url == '') {
+                        url = '/';
+                    }
+                    $window.location.href = url;
+                };
+
+                $scope.$watch(function(scope) {
+                    return scope.login;
+                }, function() {
+                    $scope.alerts = [];
+                }, true);
+
+                var error_fn = function(data) {
+                    if (data && data.data && data.data.ResponseStatus && data.data.ResponseStatus.Message) {
+                        add_alert(data.data.ResponseStatus.Message);
+                    } else {
+                        add_alert($scope.statusText = data.statusText);
+                    }
+                };
+
+                $scope.submit_login = function() {
+                    LoginService.Authenticate($scope.login).then(success_fn, error_fn);
+                };
+
+            }
+        ]);
+    })();
+</script>
+</body>
+</html>
+
+<script type="text/ng-template" id="app/login/login.html">
+    <form class="form-signin" ng-submit="submit_login()">
+        <h2 class="c form-signin-heading"><i class="fa fa-building"></i>Login</h2>
+        <h4 class="c" style="padding-left:4px;">Sign In</h4>
+        <label for="inputEmail" class="sr-only">Username</label>
+        <input type="text" id="inputEmail" class="form-control" ng-model="login.user_name" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" ng-model="login.password" placeholder="password" required>
+        <div class="c" style="padding-top:10px;padding-bottom:10px;">
+            <label>
+                <checkbox ng-model="login.remember_me" class="btn-default"></checkbox>&nbsp;&nbsp;&nbsp;Remember Me
+            </label>
+        </div>
+
+        <div ng-show="alerts.length > 0">
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="close_alert($index)" dismiss-on-timeout="5000">{{alert.msg}}</alert>
+        </div>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign In" />
+        <div>&nbsp;</div>
+        <!--<p class="c"><small><a href="#forgotpassword">@Strings.ForgotPassword</a></small></p>-->
+    </form>
+
+</script>

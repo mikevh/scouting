@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ServiceStack;
+using ServiceStack.FluentValidation;
 
 namespace Boiler.Models
 {
-    public class HelloService : IService
+    public class HelloService : SecureBaseService
     {
         public object Any(HelloRequest request)
         {
@@ -21,7 +22,7 @@ namespace Boiler.Models
 
     [Route("/hello")]
     [Route("/hello/{name}")]
-    public class HelloRequest
+    public class HelloRequest : IReturn<HelloResponse>
     {
         public string Name { get; set; }
     }
@@ -29,5 +30,12 @@ namespace Boiler.Models
     public class HelloResponse
     {
         public string Result { get; set; }
+    }
+
+    public class HelloRequestValidator : AbstractValidator<HelloRequest>
+    {
+        public HelloRequestValidator() {
+            RuleFor(x => x.Name).Length(5, Int32.MaxValue).When(x => !string.IsNullOrEmpty(x.Name));
+        }
     }
 }
