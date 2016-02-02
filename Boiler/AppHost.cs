@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Web;
 using Boiler.Models;
@@ -40,13 +41,11 @@ namespace Boiler
 
             container.RegisterValidators(typeof(HelloService).Assembly);
             ConfigureAuth(container);
-
+            RegisterOrmLiteFilters(container);
             //CreateAuthDb(container);
         }
 
-
-        private void ConfigureAuth(Container container)
-        {
+        private void ConfigureAuth(Container container) {
             container.Register(GetUserSession).ReusedWithin(ReuseScope.Request);
             container.Register(GetUserProfile).ReusedWithin(ReuseScope.Request);
             container.RegisterAutoWiredAs<BoilerAuthRepository, IAuthRepository>().ReusedWithin(ReuseScope.Request);
@@ -57,6 +56,11 @@ namespace Boiler
                 HtmlRedirect = "/login.html"
             };
             Plugins.Add(auth_feature);
+        }
+
+        private void RegisterOrmLiteFilters(Container container) {
+            OrmLiteConfig.InsertFilter = RepositoryFilters.InsertFilter(container);
+            OrmLiteConfig.UpdateFilter = RepositoryFilters.UpdateFilter(container);
         }
 
         private UserSession GetUserSession(Container container)
@@ -131,5 +135,51 @@ namespace Boiler
     {
         private static string CredentialsConnectionString => ConfigurationManager.ConnectionStrings["Credentials"].ConnectionString;
         public CredentialsDbConnectionFactory() : base(CredentialsConnectionString, SqlServerDialect.Provider) { }
+    }
+
+    public interface IHasAudit
+    {
+        DateTime CreatedOn { get; set; }
+        DateTime UpdatedOn { get; set; }
+        string CreatedBy { get; set; }
+        string UpdatedBy { get; set; }
+    }
+
+    public static class RepositoryFilters
+    {
+        public static Action<IDbCommand, object> InsertFilter(Container container) {
+            return (command, model) => {
+                var audit_model = model as IHasAudit;
+                if (audit_model != null) {
+                    var profile = container.Resolve<UserProfile>();
+                    var now = DateTime.UtcNow;
+                    audit_model.CreatedBy = profile.Username;
+                    audit_model.UpdatedBy = profile.Username;
+                    audit_model.CreatedOn = now;
+                    audit_model.UpdatedOn = now;
+                }
+            };
+        }
+
+        public static Action<IDbCommand, object> UpdateFilter(Container container) {
+            return (command, model) => {
+                var audit_model = model as IHasAudit;
+                if (audit_model != null) {
+                    var profile = container.Resolve<UserProfile>();
+                    var now = DateTime.UtcNow;
+                    audit_model.UpdatedBy = profile.Username;
+                    audit_model.UpdatedOn = now;
+
+                    if (audit_model.CreatedOn < EpochTime) {
+                        audit_model.CreatedOn = audit_model.UpdatedOn;
+                    }
+                    if (string.IsNullOrWhiteSpace(audit_model.CreatedBy)) {
+                        audit_model.CreatedBy = audit_model.UpdatedBy;
+                    }
+                }
+            };
+        }
+
+        public static DateTime EpochTime => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     }
 }

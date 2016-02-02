@@ -1,7 +1,7 @@
 ﻿<#@ include file="OrmLite.Core.ttinclude" #>
 <#
 	// Settings
-	ConnectionStringName = "DefaultConnection";			// Uses last connection string in config if not specified
+	ConnectionStringName = "App";			// Uses last connection string in config if not specified
 	Namespace = "Boiler.Models";
 	ClassPrefix = "";
 	ClassSuffix = "";
@@ -86,7 +86,7 @@ if(has_location_id){
 <# if (MakeSingular) {#>
 	[Alias("<#=tbl.Name#>")]
 <#}#>
-    public partial class <#=tbl.ClassName#> : IHasId<int>
+    public partial class <#=tbl.ClassName#> : IHasId<int>, IHasAudit
     {
 <# if (GenerateConstructor) { #>
 		public <#=tbl.ClassName#>()
@@ -107,12 +107,12 @@ foreach(Column col in from c in tbl.Columns where !c.Ignore select c)
 <# }if (tbl.FKeys != null && tbl.FKeys.Any(x => x.FromColumn == col.Name)) { #>
         [References(typeof(<#= tbl.FKeys.First(x => x.FromColumn == col.Name).ToTable #>))]
 <# } if (!col.IsPK){#>
-        public <#=col.ProperPropertyType#> <#=col.PropertyName#> { get; set;}
+        public <#=col.ProperPropertyType#> <#=col.PropertyName#> { get; set; }
 <# } if (col.IsPK && UseIdAsPK) { #>
-        public <#=col.ProperPropertyType#> Id { get; set;}
+        public <#=col.ProperPropertyType#> Id { get; set; }
 <# } if (col.IsPK && !UseIdAsPK) { #>
 		[PrimaryKey]
-        public <#=col.ProperPropertyType#> <#=col.PropertyName#> { get; set;}
+        public <#=col.ProperPropertyType#> <#=col.PropertyName#> { get; set; }
 <# } #>
 <# } #>
 	}
