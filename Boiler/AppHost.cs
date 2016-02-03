@@ -35,10 +35,11 @@ namespace Boiler
             Plugins.Add(new SessionFeature());
             Plugins.Add(new ValidationFeature());
 
+            container.Register<IDbConnectionFactory>(c => new AppDbConnectionFactory());
             container.Register<IAppDbConnectionFactory>(c => new AppDbConnectionFactory());
             container.Register<ICredentialsDbConnectionFactory>(c => new CredentialsDbConnectionFactory());
             container.Register<ICacheClient>(new MemoryCacheClient { FlushOnDispose = false });
-
+            container.RegisterApplicationDependencies();
             container.RegisterValidators(typeof(HelloService).Assembly);
             ConfigureAuth(container);
             RegisterOrmLiteFilters(container);

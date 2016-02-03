@@ -1,0 +1,11 @@
+﻿{
+	"up":{
+		"create_table":{
+			"name":"Todo","full_audit":true,
+			"columns":[{
+			"name":"Name","type":"string"},{
+			"name":"IsDone","type":"bit"}]
+		}
+	},
+	"down":{
+		"drop_table":"Todo"}}

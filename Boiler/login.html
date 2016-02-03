@@ -108,7 +108,7 @@
         module.controller('LoginController', [
             '$scope', '$http', '$location', '$window', 'LoginService', 'QuerystringService',
             function($scope, $http, $location, $window, LoginService, QuerystringService) {
-                $scope.login = { user_name: '', password: '', remember_me: true };
+                $scope.login = { user_name: 'admin@admin.com', password: 'password', remember_me: true };
                 $scope.alerts = [];
 
                 $scope.close_alert = function(index) {

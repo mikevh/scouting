@@ -81,7 +81,7 @@
 */
 
 string ConnectionStringName = "InfoCentre";
-string Namespace = "McKinstry.InfoCentre.Core.Repositories.DB";
+string Namespace = "Boiler.Models";
 string ClassPrefix = "";
 string ClassSuffix = "";
 string SchemaName = null;

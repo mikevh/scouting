@@ -33,6 +33,9 @@
 
     app.controller('indexController', function ($scope, $http ) {
 
+        $http.get('/api/todo').then(function(result) {
+        });
+
         $http.get('/api/hello').then(function (result) {
             $scope.hello = result.data.result;
             console.log('empty: ' + result.data.result);
