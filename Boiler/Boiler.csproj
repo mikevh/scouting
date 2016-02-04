@@ -106,6 +106,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OrmLite.Core1.cs</LastGenOutput>
     </None>
+    <Content Include="app\index.js" />
     <Content Include="app\player\player.js" />
     <Content Include="app\player\player.tmpl.html" />
     <Content Include="app\todo\todo.tmpl.html" />
