@@ -10,7 +10,7 @@ namespace Boiler
     public static class Dependencies
     {
         public static void RegisterApplicationDependencies(this Container container) {
-            container.RegisterAutoWiredAs<PriorityRepository, IPriorityRepository>();
+            container.RegisterAutoWiredAs<PlayerRepository, IPlayerRepository>();
             container.RegisterAutoWiredAs<TodoRepository, ITodoRepository>();
         }
     }

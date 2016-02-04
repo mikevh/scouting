@@ -106,8 +106,8 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OrmLite.Core1.cs</LastGenOutput>
     </None>
-    <Content Include="app\priority\priority.js" />
-    <Content Include="app\priority\priority.tmpl.html" />
+    <Content Include="app\player\player.js" />
+    <Content Include="app\player\player.tmpl.html" />
     <Content Include="app\todo\todo.tmpl.html" />
     <Content Include="app\todo\todo.js" />
     <Content Include="lib\bootstrap\dist\css\bootstrap.min.css" />
@@ -159,18 +159,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Priority.cs">
+    <Compile Include="Models\Player.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Todo.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\PriorityRepository.cs" />
+    <Compile Include="Repositories\PlayerRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\TodoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PlayerService.cs" />
     <Compile Include="Services\SecureBaseService.cs" />
-    <Compile Include="Services\PriorityService.cs" />
     <Compile Include="Services\TodoService.cs" />
   </ItemGroup>
   <ItemGroup>

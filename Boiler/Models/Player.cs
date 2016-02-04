@@ -16,14 +16,14 @@ using ServiceStack.OrmLite;
 
 namespace Boiler.Models
 {
-	[Alias("Priority")]
-    public partial class Priority : IHasId<int>, IHasAudit
+	[Alias("Player")]
+    public partial class Player : IHasId<int>, IHasAudit
     {
         [Alias("Id")]
         [AutoIncrement]
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? Ordinal { get; set; }
+        public int? Age { get; set; }
         [Required]
         public DateTime CreatedOn { get; set; }
         [Required]

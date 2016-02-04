@@ -1,0 +1,26 @@
+﻿<div ng-repeat="p in players" class="row">
+    <div class="col-xs-7" ng-hide="is_editing(p)" ng-click="edit(p)">
+        <label>Name</label>
+        <span>{{p.name}}</span>
+    </div>
+    <div class="col-xs-3" ng-hide="is_editing(p)" ng-click="edit(p)">
+        <label>Age</label>
+        <span>{{p.age}}</span>
+    </div>
+    <div class="col-xs-1 ">
+        <button type="button" class="btn btn-danger btn-xs" ng-click="delete(p)" ng-hide="is_editing(p)">X</button>
+    </div>
+    
+    <div class="col-xs-7" ng-show="is_editing(p)" ng-click="edit(p)">
+        <label>Name</label>
+        <input ng-model="p.name" ng-blur="save(p)" ng-keypress="save(p, $event)" />
+    </div>
+    <div class="col-xs-3" ng-show="is_editing(p)" ng-click="edit(p)">
+        <label>Age</label>
+        <input ng-model="p.age" ng-blur="save(p)" ng-keypress="save(p, $event)" />
+    </div>
+</div>
+
+<div>
+    <button type="button" class="btn btn-success" ng-click="add()">Add</button>
+</div>

@@ -3,17 +3,17 @@
 
     var app = angular.module('app');
 
-    app.factory('PriorityData', function ($http, ResourceGenerator) {
-		return ResourceGenerator.GetResource('/api/priority/:id');
+    app.factory('PlayerData', function ($http, ResourceGenerator) {
+		return ResourceGenerator.GetResource('/api/player/:id');
 	});
 
-    app.controller('priorityController', function ($scope, $timeout, PriorityData) {
+    app.controller('playerController', function ($scope, $timeout, PlayerData) {
 
         $scope.p = {};
 
         var get_all = function() {
-            PriorityData.query().then(function(result) {
-                $scope.priorities = result;
+            PlayerData.query().then(function (result) {
+                $scope.players = result;
             });
         };
 
@@ -24,17 +24,17 @@
         var select_last_input = function() {
             $timeout(function() {
                 var inputs = angular.element(document).find('input');
-                inputs[inputs.length - 1].focus();
+                inputs[inputs.length - 2].focus();
             });
         };
 
         $scope.add = function() {
-            $scope.priorities.push({ name: '', ordinal: 1 });
+            $scope.players.push({ name: '', age: 1 });
             select_last_input();
         };
 
         $scope.delete = function(p) {
-            PriorityData.del(p).then(function (result) {
+            PlayerData.del(p).then(function (result) {
                 get_all();
             });
         };
@@ -43,7 +43,7 @@
             if (event && event.keyCode !== 13) {
                 return;
             }
-            var api = p.id ? PriorityData.update : PriorityData.insert;
+            var api = p.id ? PlayerData.update : PlayerData.insert;
             api(p).then(function(result) {
                 get_all();
                 $scope.p = {};

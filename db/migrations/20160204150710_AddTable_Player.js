@@ -1,0 +1,11 @@
+﻿{
+	"up":{
+		"create_table":{
+			"name":"Player","full_audit":true,
+			"columns":[{
+			"name":"Name","type":"string"},{
+			"name":"Age","type":"int"}]
+		}
+	},
+	"down":{
+		"drop_table":"Player"}}
