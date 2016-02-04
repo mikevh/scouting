@@ -1,14 +1,38 @@
 ﻿<!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en">
 <head>
     <title>Boiler</title>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="lib/angular-material/angular-material.min.css" rel="stylesheet" />
+    <style>
+        md-sidenav {
+            color: white;
+            background-color: #106cc8;
+            width: 110px;
+            height: 100%;
+            padding: 20px;
+        }
+
+        md-content {
+            height: 100%;
+            padding: 20px;
+        }
+    </style>
 </head>
-<body>
-    <ng-view></ng-view>
+<body ng-app="app" ng-cloak layout="row" ng-controller="indexController" >
+    <md-sidenav layout="column" class="sidenav1" md-is-locked-open="true">
+        <div>
+            <span ng-click="go('/todo')">Todos</span>
+        </div>
+    </md-sidenav>
+    <md-content flex layout="column">
+        <ng-view>
+            View content
+        </ng-view>
+
+    </md-content>
 
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular-animate/angular-animate.min.js"></script>

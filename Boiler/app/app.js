@@ -60,19 +60,9 @@
         $httpProvider.interceptors.push('AuthorizationRedirectInterceptor');
     });
 
-    app.controller('indexController', function ($scope, $http ) {
-
-        $http.get('/api/hello').then(function (result) {
-            $scope.hello = result.data.result;
-        }, function(err) {
-            console.log(err);
-        });
-
-        $http.get('/api/hello/bob').then(function(result) {
-            $scope.better = result.data;
-        }, function(err) {
-            console.log(err);
-        });
-
+    app.controller('indexController', function ($scope, $location) {
+        $scope.go = function (dest) {
+            $location.path(dest);
+        };
     });
 })();
