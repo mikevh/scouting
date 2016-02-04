@@ -110,6 +110,9 @@
     <Content Include="app\priority\priority.tmpl.html" />
     <Content Include="app\todo\todo.tmpl.html" />
     <Content Include="app\todo\todo.js" />
+    <Content Include="lib\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="lib\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="lib\jquery\dist\jquery.min.js" />
     <Content Include="login.html" />
     <Content Include="Models\OrmLite.Poco.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -119,14 +122,11 @@
     <Content Include=".bowerrc" />
     <Content Include="bower.json" />
     <Content Include="package.json" />
-    <Content Include="lib\jquery\dist\jquery.min.map" />
     <Content Include="lib\angular\angular.min.js.map" />
-    <Content Include="lib\angular-animate\angular-animate.min.js.map" />
-    <Content Include="lib\angular-aria\angular-aria.min.js.map" />
-    <Content Include="lib\angular-messages\angular-messages.min.js.map" />
     <Content Include="lib\angular-route\angular-route.min.js.map" />
     <Content Include="lib\angular-resource\angular-resource.min.js.map" />
     <Content Include="lib\underscore\underscore-min.map" />
+    <None Include="Properties\PublishProfiles\mscouting - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -139,16 +139,9 @@
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
     <Content Include="index.html" />
-    <Content Include="lib\angular-animate\angular-animate.min.js" />
-    <Content Include="lib\angular-aria\angular-aria.min.js" />
-    <Content Include="lib\angular-material\angular-material.min.css" />
-    <Content Include="lib\angular-material\angular-material.min.js" />
-    <Content Include="lib\angular-messages\angular-messages.min.js" />
     <Content Include="lib\angular-resource\angular-resource.min.js" />
     <Content Include="lib\angular-route\angular-route.min.js" />
     <Content Include="lib\angular\angular.min.js" />
-    <Content Include="lib\jquery\dist\jquery.js" />
-    <Content Include="lib\jquery\dist\jquery.min.js" />
     <Content Include="app\app.js" />
     <Content Include="lib\underscore\underscore-min.js" />
     <Content Include="Web.config">

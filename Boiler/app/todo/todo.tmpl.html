@@ -1,15 +1,13 @@
-﻿<div flex="25" id="todos" layout="row" class="md-inline-form" ng-repeat="t in todos">
-    <div flex="50">
-        <md-input-container>
-            <md-content ng-hide="is_editing(t)" ng-click="edit(t)">{{t.name}}</md-content>
-            <input ng-model="t.name" name="name" ng-show="is_editing(t)" aria-label="name" ng-keypress="save(t, $event)"/>
-        </md-input-container>
+﻿<div ng-repeat="t in todos" class="row">
+    <div class="col-xs-6 form-group">
+        <span ng-hide="is_editing(t)" ng-click="edit(t)">{{t.name}}</span>
+        <input ng-model="t.name" name="name" ng-show="is_editing(t)" ng-keypress="save(t, $event)"/>
     </div>
-    <div flex="50">
-        <md-checkbox ng-model="t.isDone" aria-label="done" ng-change="save(t)"></md-checkbox>
-        <md-button ng-click="delete(t)" ng-show="t.isDone" aria-label="delete">X</md-button>
+    <div class="form-group">
+        <input type="checkbox" ng-model="t.isDone" ng-change="save(t)"/>
+        <button type="button" class="btn btn-danger btn-xs" ng-click="delete(t)" ng-show="t.isDone">X</button>
     </div>
 </div>
 <div>
-    <md-button class="md-raised" ng-click="add()" aria-label="add">Add</md-button>
+    <button type="button" class="btn btn-success" ng-click="add()">Add</button>
 </div>

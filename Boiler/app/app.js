@@ -1,7 +1,7 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('app', ['ngRoute', 'ngResource', 'ngMaterial']);
+    var app = angular.module('app', ['ngRoute', 'ngResource']);
 
     app.config(function ($routeProvider, $locationProvider) {
         var routes = [

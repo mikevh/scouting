@@ -2,11 +2,10 @@
 	"name": "ASP.NET",
 	"private": true,
   "dependencies": {
-    "jquery": "2.2.0",
     "angular": "1.4.9",
-    "angular-material": "1.0.4",
     "angular-route": "1.4.9",
     "angular-resource": "1.4.9",
+    "bootstrap": "3.3.6",
     "underscore": "1.8.3"
   }
 }
