@@ -106,6 +106,8 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OrmLite.Core1.cs</LastGenOutput>
     </None>
+    <Content Include="app\todo\todo.tmpl.html" />
+    <Content Include="app\todo\todo.js" />
     <Content Include="login.html" />
     <Content Include="Models\OrmLite.Poco.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

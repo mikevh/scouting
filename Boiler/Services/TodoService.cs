@@ -45,6 +45,11 @@ namespace Boiler.Services
 
             return Get(new GetTodoRequest {Id = request.Id});
         }
+
+        public object Delete(DeleteTodoRequest request) {
+            todo_repository.Delete(request.Id);
+            return new HttpResult { StatusCode = HttpStatusCode.Accepted };
+        }
     }
 
     [Route("/todo", "GET")]
@@ -71,9 +76,16 @@ namespace Boiler.Services
     [Route("/todo/{id}", "PUT")]
     public class UpdateTodoRequest : IReturn<TodoResponse>
     {
-        public int Id { get; set; }
+        public int Id { get; set; } 
         public string Name { get; set; }
         public bool IsDone { get; set; }
+    }
+
+    [Route("/todo", "DELETE")]
+    [Route("/todo/{id}", "DELETE")]
+    public class DeleteTodoRequest
+    {
+        public int Id { get; set; }
     }
 
     public class TodoResponse
@@ -81,6 +93,13 @@ namespace Boiler.Services
         public int Id { get; set; }
         public string Name { get; set; }
         public bool? IsDone { get; set; }
+    }
+
+    public class DeleteTodoRequestValidator : AbstractValidator<DeleteTodoRequest>
+    {
+        public DeleteTodoRequestValidator() {
+            RuleFor(x => x.Id).NotEmpty();
+        }
     }
 
     public class UpdateTodoRequestValidator : AbstractValidator<UpdateTodoRequest>
