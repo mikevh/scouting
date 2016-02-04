@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using Boiler.Models;
+using Boiler.Services;
 using Funq;
 using ServiceStack;
 using ServiceStack.Auth;
@@ -20,7 +21,7 @@ namespace Boiler
 {
     public class AppHost : AppHostBase
     {
-        public AppHost() : base("Hello", typeof(HelloService).Assembly) {
+        public AppHost() : base("Hello", typeof(TodoService).Assembly) {
             
         }
 
@@ -40,7 +41,7 @@ namespace Boiler
             container.Register<ICredentialsDbConnectionFactory>(c => new CredentialsDbConnectionFactory());
             container.Register<ICacheClient>(new MemoryCacheClient { FlushOnDispose = false });
             container.RegisterApplicationDependencies();
-            container.RegisterValidators(typeof(HelloService).Assembly);
+            container.RegisterValidators(typeof(TodoService).Assembly);
             ConfigureAuth(container);
             RegisterOrmLiteFilters(container);
             //CreateAuthDb(container);

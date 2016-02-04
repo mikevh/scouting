@@ -7,6 +7,7 @@
         var routes = [
             { url: '/', config: { templateUrl: '/app/index.tmpl.html', controller: 'indexController' } },
             { url: '/todo', config: { templateUrl: '/app/todo/todo.tmpl.html', controller: 'todoController' } },
+            { url: '/priority', config: { templateUrl: '/app/priority/priority.tmpl.html', controller: 'priorityController' } },
         ];
         _.each(routes, function (x) { $routeProvider.when(x.url, x.config); });
         $routeProvider.otherwise({ redirectTo: '/' });

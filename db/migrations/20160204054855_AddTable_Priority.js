@@ -1,0 +1,11 @@
+﻿{
+	"up":{
+		"create_table":{
+			"name":"Priority","full_audit":true,
+			"columns":[{
+			"name":"Name","type":"string"},{
+			"name":"Ordinal","type":"int"}]
+		}
+	},
+	"down":{
+		"drop_table":"Priority"}}

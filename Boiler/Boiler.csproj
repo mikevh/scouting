@@ -106,6 +106,8 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OrmLite.Core1.cs</LastGenOutput>
     </None>
+    <Content Include="app\priority\priority.js" />
+    <Content Include="app\priority\priority.tmpl.html" />
     <Content Include="app\todo\todo.tmpl.html" />
     <Content Include="app\todo\todo.js" />
     <Content Include="login.html" />
@@ -133,7 +135,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\bar.tmpl.html" />
     <Content Include="app\index.tmpl.html" />
     <Content Include="Global.asax" />
     <Content Include="gulpfile.js" />
@@ -165,14 +166,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Priority.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Todo.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\PriorityRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\TodoRepository.cs" />
-    <Compile Include="Services\HelloService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SecureBaseService.cs" />
+    <Compile Include="Services\PriorityService.cs" />
     <Compile Include="Services\TodoService.cs" />
   </ItemGroup>
   <ItemGroup>

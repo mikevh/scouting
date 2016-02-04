@@ -18,9 +18,9 @@ namespace Boiler.Repositories
     {
         List<T> All();
         T GetById(int id);
-        void Delete(int id);
-        int Insert(T model);
-        int Update(T model);
+        void Delete(int id, IDbTransaction transaction = null);
+        int Insert(T model, IDbTransaction transaction = null);
+        int Update(T model, IDbTransaction transaction = null);
 
         IEnumerable<T> Where(Expression<Func<T, bool>> predicate);
         IEnumerable<T> Where(object anonType);
@@ -36,7 +36,7 @@ namespace Boiler.Repositories
             _connectionFactory = connectionFactory;
         }
 
-        private IDbConnection Open() {
+        private IDbConnection OpenConnection() {
             if (_connectionFactory == null) {
                 throw new NullReferenceException("connection_factory null in base repository class");
             }
@@ -45,62 +45,77 @@ namespace Boiler.Repositories
         }
 
         public List<T> All() {
-            using (var c = Open()) {
+            using (var c = OpenConnection()) {
                 return c.Select<T>();
             }
         }
 
         public T GetById(int id) {
-            using (var c = Open()) {
+            using (var c = OpenConnection()) {
                 return c.LoadSingleById<T>(id);
             }
         }
 
-        public void Delete(int id) {
-            using (var c = Open()) {
-                c.DeleteById<T>(id);
+        public void Delete(int id, IDbTransaction transaction = null) {
+            var c = transaction?.Connection ?? OpenConnection();
+
+            c.DeleteById<T>(id);
+
+            if (transaction == null) {
+                c.Dispose();
             }
         }
 
-        public int Insert(T model) {
-            using (var c = Open()) {
-                return Convert.ToInt32(c.Insert(model, selectIdentity: true));
+        public int Insert(T model, IDbTransaction transaction = null) {
+            var c = transaction?.Connection ?? OpenConnection();
+
+            var rv = Convert.ToInt32(c.Insert(model, selectIdentity: true));
+
+            if (transaction == null) {
+                c.Dispose();
             }
+
+            return rv;
         }
 
-        public int Update(T model) {
+        public int Update(T model, IDbTransaction transaction = null) {
             if (model.Id < 1) {
                 throw new InvalidDataException("Cannot update model with no id");
             }
 
-            using (var c = Open()) {
-                var existing = c.SingleById<T>(model.Id);
-                ThrowIfModelNotFound(model, existing);
-                c.Update(model);
-                return model.Id;
+            var c = transaction?.Connection ?? OpenConnection();
+
+            var existing = c.SingleById<T>(model.Id);
+            ThrowIfModelNotFound(model, existing);
+            c.Update(model);
+
+            if (transaction == null) {
+                c.Dispose();
             }
+
+            return model.Id;
         }
 
         public IEnumerable<T> Where(Expression<Func<T, bool>> predicate) {
-            using (var c = Open()) {
+            using (var c = OpenConnection()) {
                 return c.Where<T>(predicate);
             }
         }
 
         public IEnumerable<T> Where(object anonType) {
-            using (var c = Open()) {
+            using (var c = OpenConnection()) {
                 return c.Where<T>(anonType);
             }
         }
 
         public T Single(Expression<Func<T, bool>> predicate) {
-            using (var c = Open()) {
+            using (var c = OpenConnection()) {
                 return c.Single(predicate);
             }
         }
 
         public T SingleOrDefault(Expression<Func<T, bool>> predicate) {
-            using (var c = Open()) {
+            using (var c = OpenConnection()) {
                 try {
                     return c.Single(predicate);
                 }
