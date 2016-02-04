@@ -10,6 +10,9 @@ namespace Boiler
     public static class Dependencies
     {
         public static void RegisterApplicationDependencies(this Container container) {
+            container.RegisterAutoWiredAs<FieldingRepository, IFieldingRepository>();
+            container.RegisterAutoWiredAs<HittingRepository, IHittingRepository>();
+            container.RegisterAutoWiredAs<PitchingRepository, IPitchingRepository>();
             container.RegisterAutoWiredAs<PlayerRepository, IPlayerRepository>();
             container.RegisterAutoWiredAs<TodoRepository, ITodoRepository>();
         }

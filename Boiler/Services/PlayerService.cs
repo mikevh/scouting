@@ -68,17 +68,47 @@ namespace Boiler.Services
     [Route("/player", "POST")]
     public class CreatePlayerRequest : IReturn<PlayerResponse>
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public string PlayerNumber { get; set; }
+        public string PlayerName { get; set; }
+        public int LeagueAge { get; set; }
+        public string LeaguePlayed { get; set; }
+        public string ASMI { get; set; }
+        public int? HBB { get; set; }
+        public int? HSO { get; set; }
+        public decimal? HAVG { get; set; }
+        public decimal? HOPS { get; set; }
+        public decimal? PIP { get; set; }
+        public int? PBB { get; set; }
+        public int? PSO { get; set; }
+        public decimal? PWHIP { get; set; }
+        public string Size { get; set; }
+        public string Throws { get; set; }
+        public string Bats { get; set; }
+        public string PlayerNote { get; set; }
     }
 
     [Route("/player", "PUT")]
     [Route("/player/{id}", "PUT")]
     public class UpdatePlayerRequest : IReturn<PlayerResponse>
     {
-        public int Id { get; set; } 
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public int Id { get; set; }
+        public string PlayerNumber { get; set; }
+        public string PlayerName { get; set; }
+        public int LeagueAge { get; set; }
+        public string LeaguePlayed { get; set; }
+        public string ASMI { get; set; }
+        public int? HBB { get; set; }
+        public int? HSO { get; set; }
+        public decimal? HAVG { get; set; }
+        public decimal? HOPS { get; set; }
+        public decimal? PIP { get; set; }
+        public int? PBB { get; set; }
+        public int? PSO { get; set; }
+        public decimal? PWHIP { get; set; }
+        public string Size { get; set; }
+        public string Throws { get; set; }
+        public string Bats { get; set; }
+        public string PlayerNote { get; set; }
     }
 
     [Route("/player", "DELETE")]
@@ -91,8 +121,23 @@ namespace Boiler.Services
     public class PlayerResponse
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public string PlayerNumber { get; set; }
+        public string PlayerName { get; set; }
+        public int LeagueAge { get; set; }
+        public string LeaguePlayed { get; set; }
+        public string ASMI { get; set; }
+        public int? HBB { get; set; }
+        public int? HSO { get; set; }
+        public decimal? HAVG { get; set; }
+        public decimal? HOPS { get; set; }
+        public decimal? PIP { get; set; }
+        public int? PBB { get; set; }
+        public int? PSO { get; set; }
+        public decimal? PWHIP { get; set; }
+        public string Size { get; set; }
+        public string Throws { get; set; }
+        public string Bats { get; set; }
+        public string PlayerNote { get; set; }
     }
 
     public class DeletePlayerRequestValidator : AbstractValidator<DeletePlayerRequest>
@@ -106,8 +151,6 @@ namespace Boiler.Services
     {
         public UpdatePlayerRequestValidator() {
             RuleFor(x => x.Id).NotEmpty();
-            RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Age).NotEmpty();
         }
     }
 
@@ -121,8 +164,7 @@ namespace Boiler.Services
     public class CreatePlayerRequestValidator : AbstractValidator<CreatePlayerRequest>
     {
         public CreatePlayerRequestValidator() {
-            RuleFor(x => x.Name).NotEmpty();
-            RuleFor(x => x.Age).NotEmpty();
+            RuleFor(x => x.PlayerName).NotEmpty();
         }
     }
 }

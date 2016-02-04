@@ -19,17 +19,33 @@ namespace Boiler.Models
 	[Alias("Player")]
     public partial class Player : IHasId<int>, IHasAudit
     {
-        [Alias("Id")]
+        [Alias("PlayerId")]
         [AutoIncrement]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int? Age { get; set; }
         [Required]
-        public DateTime CreatedOn { get; set; }
+        public string PlayerNumber { get; set; }
         [Required]
-        public DateTime UpdatedOn { get; set; }
+        public string PlayerName { get; set; }
+        [Required]
+        public int LeagueAge { get; set; }
+        public string LeaguePlayed { get; set; }
+        public string ASMI { get; set; }
+        public int? HBB { get; set; }
+        public int? HSO { get; set; }
+        public decimal? HAVG { get; set; }
+        public decimal? HOPS { get; set; }
+        public decimal? PIP { get; set; }
+        public int? PBB { get; set; }
+        public int? PSO { get; set; }
+        public decimal? PWHIP { get; set; }
+        public string Size { get; set; }
+        public string Throws { get; set; }
+        public string Bats { get; set; }
+        public string PlayerNote { get; set; }
+        [Required]
         public string CreatedBy { get; set; }
-        public string UpdatedBy { get; set; }
+        [Required]
+        public DateTime CreatedDate { get; set; }
 	}
 }
 #pragma warning restore 1591
