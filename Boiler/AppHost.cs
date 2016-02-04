@@ -62,7 +62,6 @@ namespace Boiler
 
         private void RegisterOrmLiteFilters(Container container) {
             OrmLiteConfig.InsertFilter = RepositoryFilters.InsertFilter(container);
-            OrmLiteConfig.UpdateFilter = RepositoryFilters.UpdateFilter(container);
         }
 
         private UserSession GetUserSession(Container container)
@@ -141,10 +140,8 @@ namespace Boiler
 
     public interface IHasAudit
     {
-        DateTime CreatedOn { get; set; }
-        DateTime UpdatedOn { get; set; }
+        DateTime CreatedDate { get; set; }
         string CreatedBy { get; set; }
-        string UpdatedBy { get; set; }
     }
 
     public static class RepositoryFilters
@@ -156,28 +153,7 @@ namespace Boiler
                     var profile = container.Resolve<UserProfile>();
                     var now = DateTime.UtcNow;
                     audit_model.CreatedBy = profile.Username;
-                    audit_model.UpdatedBy = profile.Username;
-                    audit_model.CreatedOn = now;
-                    audit_model.UpdatedOn = now;
-                }
-            };
-        }
-
-        public static Action<IDbCommand, object> UpdateFilter(Container container) {
-            return (command, model) => {
-                var audit_model = model as IHasAudit;
-                if (audit_model != null) {
-                    var profile = container.Resolve<UserProfile>();
-                    var now = DateTime.UtcNow;
-                    audit_model.UpdatedBy = profile.Username;
-                    audit_model.UpdatedOn = now;
-
-                    if (audit_model.CreatedOn < EpochTime) {
-                        audit_model.CreatedOn = audit_model.UpdatedOn;
-                    }
-                    if (string.IsNullOrWhiteSpace(audit_model.CreatedBy)) {
-                        audit_model.CreatedBy = audit_model.UpdatedBy;
-                    }
+                    audit_model.CreatedDate = now;
                 }
             };
         }

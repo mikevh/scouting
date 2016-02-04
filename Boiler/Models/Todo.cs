@@ -23,13 +23,12 @@ namespace Boiler.Models
         [AutoIncrement]
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool? IsDone { get; set; }
         [Required]
-        public DateTime CreatedOn { get; set; }
+        public bool IsDone { get; set; }
         [Required]
-        public DateTime UpdatedOn { get; set; }
+        public DateTime CreatedDate { get; set; }
+        [Required]
         public string CreatedBy { get; set; }
-        public string UpdatedBy { get; set; }
 	}
 }
 #pragma warning restore 1591
