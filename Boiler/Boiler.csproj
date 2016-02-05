@@ -80,9 +80,9 @@
       <HintPath>..\packages\ServiceStack.Server.4.0.52\lib\net45\ServiceStack.Server.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ServiceStack.Text, Version=4.0.52.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ServiceStack.Text.4.0.52\lib\net40\ServiceStack.Text.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="ServiceStack.Text, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -106,9 +106,13 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OrmLite.Core1.cs</LastGenOutput>
     </None>
+    <Content Include="app\fielding\fielding.js" />
+    <Content Include="app\fielding\fielding.tmpl.html" />
     <Content Include="app\index.js" />
     <Content Include="app\player\player.js" />
     <Content Include="app\player\player.tmpl.html" />
+    <Content Include="app\scout\scout.js" />
+    <Content Include="app\scout\scout.tmpl.html" />
     <Content Include="app\todo\todo.tmpl.html" />
     <Content Include="app\todo\todo.js" />
     <Content Include="lib\bootstrap\dist\css\bootstrap.min.css" />

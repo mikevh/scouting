@@ -1,0 +1,51 @@
+﻿
+<div>
+
+    <div class="btn-group-lg" data-toggle="buttons">
+        <h4>Mechanics:</h4>
+        <label class="btn btn-primary"><input type="radio" name="mechanics" autocomplete="off" ng-model="f.mechanics" value="1" checked/>1</label>
+        <label class="btn btn-primary"><input type="radio" name="mechanics" ng-model="f.mechanics" value="2"/>2</label>
+        <label class="btn btn-primary active"><input type="radio" name="mechanics" ng-model="f.mechanics" value="3"/>3</label>
+        <label class="btn btn-primary"><input type="radio" name="mechanics" ng-model="f.mechanics" value="4"/>4</label>
+        <label class="btn btn-primary"><input type="radio" name="mechanics" ng-model="f.mechanics" value="5"/>5</label>
+    </div>
+    <br />
+    <div class="btn-group-lg" data-toggle="buttons">
+        <h4>Range:</h4>
+        <label class="btn btn-primary"><input type="radio" name="range" ng-model="f.range" value="1" checked/>1</label>
+        <label class="btn btn-primary"><input type="radio" name="range" ng-model="f.range" value="2"/>2</label>
+        <label class="btn btn-primary active"><input type="radio" name="range" ng-model="f.range" value="3"/>3</label>
+        <label class="btn btn-primary"><input type="radio" name="range" ng-model="f.range" value="4"/>4</label>
+        <label class="btn btn-primary"><input type="radio" name="range" ng-model="f.range" value="5"/>5</label>
+    </div>
+    <br />
+    <div class="btn-group-lg" data-toggle="buttons">
+        <h4>Hands:</h4>
+        <label class="btn btn-primary"><input type="radio" name="hands" ng-model="f.hands" value="1" checked/>1</label>
+        <label class="btn btn-primary"> <input type="radio" name="hands" ng-model="f.hands" value="2"/>2</label>
+        <label class="btn btn-primary active"><input type="radio" name="hands" ng-model="f.hands" value="3"/>3</label>
+        <label class="btn btn-primary"><input type="radio" name="hands" ng-model="f.hands" value="4"/>4</label>
+        <label class="btn btn-primary"><input type="radio" name="hands" ng-model="f.hands" value="5"/>5</label>
+    </div>
+    <br />
+    <div class="btn-group-lg" data-toggle="buttons">
+        <h4>Arm Strength:</h4>
+        <label class="btn btn-primary"><input type="radio" name="arm" ng-model="f.armStrength" value="1" checked/>1</label>
+        <label class="btn btn-primary"><input type="radio" name="arm" ng-model="f.armStrength" value="2"/>2</label>
+        <label class="btn btn-primary active"><input type="radio" name="arm" ng-model="f.armStrength" value="3"/>3</label>
+        <label class="btn btn-primary"><input type="radio" name="arm" ng-model="f.armStrength" value="4"/>4</label>
+        <label class="btn btn-primary"><input type="radio" name="arm" ng-model="f.armStrength" value="5"/>5</label>
+    </div>
+    <br />
+    <br />
+
+    <p>Mechanics: {{ f.mechanics }}</p>
+
+    <div>
+        <button type="button" class="btn btn-success" ng-click="save()">Save</button>
+    </div>
+</div>
+    
+    
+
+

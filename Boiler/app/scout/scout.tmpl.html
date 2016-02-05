@@ -1,0 +1,51 @@
+﻿
+<div>
+Select Player:
+    <select ng-model="selectPlayer" ng-options="p.playerName for p in players">
+        <option value="">Select Player</option>
+    </select>
+
+<p>Currently selected: {{ {selected_p:selectPlayer} }}</p>
+    <p>PlayerNumber: {{ selectPlayer.playerNumber }}</p>
+    <p>PlayerNumber: {{ selectPlayer.playerName }}</p>
+    <p>PlayerNumber: {{ selectPlayer.playerLeagueAge }}</p>
+    
+
+
+    <div class="container" ng-app="tabApp">
+
+        <div ng-controller="TabController">
+          
+                <ul class="nav nav-tabs">
+                    <li ng-class="{ active: isSet(1) }">
+                        <a datatoggle="tab" href="#" ng-click="setTab(1)">Fielding</a>
+                    </li>
+                    <li ng-class="{ active: isSet(2) }">
+                        <a datatoggle="tab" href="#" ng-click="setTab(2)">Hitting</a>
+                    </li>
+                    <li ng-class="{ active: isSet(3) }">
+                        <a datatoggle="tab" href="#" ng-click="setTab(3)">Pitching</a>
+                    </li>
+                </ul>
+       
+      
+                <div class="jumbotron">
+                    <div ng-show="isSet(1)">
+                        <h1>Fielding</h1>
+                        <p>Fielding scores</p>
+                    </div>
+                    <div ng-show="isSet(2)">
+                        <h1>Hitting</h1>
+                        <p>Hitting scores</p>
+                    </div>
+                    <div ng-show="isSet(3)">
+                        <h1>Pitching</h1>
+                        <p>Pitching scores</p>
+                    </div>
+                </div>
+  
+        
+        </div>
+
+
+   </div>

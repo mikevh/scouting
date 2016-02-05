@@ -29,7 +29,7 @@
         };
 
         $scope.add = function() {
-            $scope.players.push({ playerName: '', leagueAge: 12 });
+            $scope.players.push({ playerNumber: p.playerNumber, playerName: p.playerName, leagueAge: p.leagueAge });
             select_last_input();
         };
 

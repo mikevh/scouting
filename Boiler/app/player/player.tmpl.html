@@ -1,24 +1,45 @@
-﻿<div ng-repeat="p in players" class="row">
-    <div class="col-xs-7" ng-hide="is_editing(p)" ng-click="edit(p)">
+﻿
+
+<div>
+    <button type="button" class="btn btn-success" ng-click="add()">Add</button>
+</div>
+
+<div class="row">
+
+    <div class="col-xs-4">
+        <label>Player Number</label>
+    </div>
+    <div class="col-xs-6">
         <label>Player Name</label>
-        <span>{{p.playerName}}</span>
     </div>
-    <div class="col-xs-3" ng-hide="is_editing(p)" ng-click="edit(p)">
+    <div class="col-xs-2">
         <label>League Age</label>
-        <span>{{p.leagueAge}}</span>
     </div>
-    <div class="col-xs-1 ">
-        <button type="button" class="btn btn-danger btn-xs" ng-click="delete(p)" ng-hide="is_editing(p)">X</button>
-    </div>
-    
-    <div class="col-xs-7" ng-show="is_editing(p)" ng-click="edit(p)">
-        <label>Player Name</label>
-        <input ng-model="p.playerName" ng-blur="save(p)" ng-keypress="save(p, $event)" select-on-click />
-    </div>
-    <div class="col-xs-3" ng-show="is_editing(p)" ng-click="edit(p)">
-        <label>League Age</label>
-        <input ng-model="p.leagueAge" ng-blur="save(p)" ng-keypress="save(p, $event)" select-on-click />
-    </div>
+</div>
+   
+<div ng-repeat="p in players" class="row">
+
+        <div class="col-xs-4" ng-hide="is_editing(p)" ng-click="edit(p)">
+            <span>{{p.playerNumber}}</span>
+        </div>
+        <div class="col-xs-6" ng-hide="is_editing(p)" ng-click="edit(p)">
+            <span>{{p.playerName}}</span>
+        </div>
+        <div class="col-xs-2" ng-hide="is_editing(p)" ng-click="edit(p)">
+            <span>{{p.leagueAge}}</span>
+        </div>
+
+
+        <div class="col-xs-4" ng-show="is_editing(p)" ng-click="edit(p)">
+            <input ng-model="p.playerNumber" ng-blur="save(p)" ng-keypress="save(p, $event)" select-on-click />
+        </div>
+        <div class="col-xs-6" ng-show="is_editing(p)" ng-click="edit(p)">
+            <input ng-model="p.playerName" ng-blur="save(p)" ng-keypress="save(p, $event)" select-on-click />
+        </div>
+        <div class="col-xs-2" ng-show="is_editing(p)" ng-click="edit(p)">
+            <input ng-model="p.leagueAge" ng-blur="save(p)" ng-keypress="save(p, $event)" select-on-click />
+        </div>
+
 </div>
 
 <div>

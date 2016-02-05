@@ -8,6 +8,8 @@
             { url: '/', config: { templateUrl: '/app/index.tmpl.html', controller: 'indexController' } },
             { url: '/todo', config: { templateUrl: '/app/todo/todo.tmpl.html', controller: 'todoController' } },
             { url: '/player', config: { templateUrl: '/app/player/player.tmpl.html', controller: 'playerController' } },
+            { url: '/scout', config: { templateUrl: '/app/scout/scout.tmpl.html', controller: 'scoutController' } },
+            { url: '/fielding', config: { templateUrl: '/app/fielding/fielding.tmpl.html', controller: 'fieldingController' } },
         ];
         _.each(routes, function (x) { $routeProvider.when(x.url, x.config); });
         $routeProvider.otherwise({ redirectTo: '/' });
