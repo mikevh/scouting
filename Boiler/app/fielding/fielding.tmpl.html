@@ -1,51 +1,39 @@
-﻿
-<div>
+﻿<style>
+    #fieldings label {
+        margin-left: 3px;
+    }
+</style>
+<div id="fieldings">
 
     <div class="btn-group-lg" data-toggle="buttons">
         <h4>Mechanics:</h4>
-        <label class="btn btn-primary"><input type="radio" name="mechanics" autocomplete="off" ng-model="f.mechanics" value="1" checked/>1</label>
-        <label class="btn btn-primary"><input type="radio" name="mechanics" ng-model="f.mechanics" value="2"/>2</label>
-        <label class="btn btn-primary active"><input type="radio" name="mechanics" ng-model="f.mechanics" value="3"/>3</label>
-        <label class="btn btn-primary"><input type="radio" name="mechanics" ng-model="f.mechanics" value="4"/>4</label>
-        <label class="btn btn-primary"><input type="radio" name="mechanics" ng-model="f.mechanics" value="5"/>5</label>
+        <label ng-repeat="i in possible" class="btn btn-primary" ng-click="f.mechanics = i" ng-class="{'active': f.mechanics === i}">{{i}}</label>
     </div>
     <br />
     <div class="btn-group-lg" data-toggle="buttons">
         <h4>Range:</h4>
-        <label class="btn btn-primary"><input type="radio" name="range" ng-model="f.range" value="1" checked/>1</label>
-        <label class="btn btn-primary"><input type="radio" name="range" ng-model="f.range" value="2"/>2</label>
-        <label class="btn btn-primary active"><input type="radio" name="range" ng-model="f.range" value="3"/>3</label>
-        <label class="btn btn-primary"><input type="radio" name="range" ng-model="f.range" value="4"/>4</label>
-        <label class="btn btn-primary"><input type="radio" name="range" ng-model="f.range" value="5"/>5</label>
+        <label style="margin-left: 3px" ng-repeat="i in possible" class="btn btn-primary" ng-click="f.range = i" ng-class="{'active': f.range === i}">{{i}}</label>
     </div>
     <br />
     <div class="btn-group-lg" data-toggle="buttons">
         <h4>Hands:</h4>
-        <label class="btn btn-primary"><input type="radio" name="hands" ng-model="f.hands" value="1" checked/>1</label>
-        <label class="btn btn-primary"> <input type="radio" name="hands" ng-model="f.hands" value="2"/>2</label>
-        <label class="btn btn-primary active"><input type="radio" name="hands" ng-model="f.hands" value="3"/>3</label>
-        <label class="btn btn-primary"><input type="radio" name="hands" ng-model="f.hands" value="4"/>4</label>
-        <label class="btn btn-primary"><input type="radio" name="hands" ng-model="f.hands" value="5"/>5</label>
+        <label style="margin-left: 3px" ng-repeat="i in possible" class="btn btn-primary" ng-click="f.hands = i" ng-class="{'active': f.hands === i}">{{i}}</label>
     </div>
     <br />
     <div class="btn-group-lg" data-toggle="buttons">
         <h4>Arm Strength:</h4>
-        <label class="btn btn-primary"><input type="radio" name="arm" ng-model="f.armStrength" value="1" checked/>1</label>
-        <label class="btn btn-primary"><input type="radio" name="arm" ng-model="f.armStrength" value="2"/>2</label>
-        <label class="btn btn-primary active"><input type="radio" name="arm" ng-model="f.armStrength" value="3"/>3</label>
-        <label class="btn btn-primary"><input type="radio" name="arm" ng-model="f.armStrength" value="4"/>4</label>
-        <label class="btn btn-primary"><input type="radio" name="arm" ng-model="f.armStrength" value="5"/>5</label>
+        <label style="margin-left: 3px" ng-repeat="i in possible" class="btn btn-primary" ng-click="f.armStrength = i" ng-class="{'active': f.armStrength === i}">{{i}}</label>
     </div>
     <br />
     <br />
 
     <p>Mechanics: {{ f.mechanics }}</p>
-
+    {{f}}
     <div>
         <button type="button" class="btn btn-success" ng-click="save()">Save</button>
     </div>
 </div>
-    
-    
+
+
 
 

@@ -15,11 +15,15 @@
             hands: 3.0,
             arm: 3.0,
         };
-        $scope.$watch("f", function () {
-            console.log($scope.f);
+
+        $scope.possible = [1,2,3,4,5];
+
+        $scope.$watch('f', function (a) {
+            console.log(a);
         }, true);
                
         $scope.save = function (f, event) {
+            
             if (event && event.keyCode !== 13) {
                 return;
             }
