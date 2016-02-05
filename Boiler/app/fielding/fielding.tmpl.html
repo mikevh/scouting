@@ -12,17 +12,17 @@
     <br />
     <div class="btn-group-lg" data-toggle="buttons">
         <h4>Range:</h4>
-        <label style="margin-left: 3px" ng-repeat="i in possible" class="btn btn-primary" ng-click="f.range = i" ng-class="{'active': f.range === i}">{{i}}</label>
+        <label ng-repeat="i in possible" class="btn btn-primary" ng-click="f.range = i" ng-class="{'active': f.range === i}">{{i}}</label>
     </div>
     <br />
     <div class="btn-group-lg" data-toggle="buttons">
         <h4>Hands:</h4>
-        <label style="margin-left: 3px" ng-repeat="i in possible" class="btn btn-primary" ng-click="f.hands = i" ng-class="{'active': f.hands === i}">{{i}}</label>
+        <label ng-repeat="i in possible" class="btn btn-primary" ng-click="f.hands = i" ng-class="{'active': f.hands === i}">{{i}}</label>
     </div>
     <br />
     <div class="btn-group-lg" data-toggle="buttons">
         <h4>Arm Strength:</h4>
-        <label style="margin-left: 3px" ng-repeat="i in possible" class="btn btn-primary" ng-click="f.armStrength = i" ng-class="{'active': f.armStrength === i}">{{i}}</label>
+        <label ng-repeat="i in possible" class="btn btn-primary" ng-click="f.armStrength = i" ng-class="{'active': f.armStrength === i}">{{i}}</label>
     </div>
     <br />
     <br />
