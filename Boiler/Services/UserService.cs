@@ -62,8 +62,7 @@ namespace Boiler.Services
         }
     }
 
-    [Route("/user/changepassword/{username}", "PUT")]
-    [Route("/user/changepassword/{username}", "PUT")]
+    [Route("/user/changepassword", "PUT")]
     public class UpdateUserPasswordRequest
     {
         public string Username { get; set; }

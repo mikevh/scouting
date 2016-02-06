@@ -10,9 +10,10 @@
     </thead>
     <tbody>
     <tr ng-repeat="u in users">
-        <td style="width: 50px">
-            <span ng-click="edit(u)" class="glyphicon glyphicon-edit"></span>
-            <span ng-click="delete(u)" class="glyphicon glyphicon-minus"></span>
+        <td style="width: 70px">
+            <span ng-click="edit(u)" class="glyphicon glyphicon-pencil"></span>
+            <span ng-click="delete(u)" class="glyphicon glyphicon-minus-sign"></span>
+            <span ng-click="password(u)" class="glyphicon glyphicon-alert"></span>
         </td>
         <td ng-show="!is_editing(u) || u.id !== 0">{{u.username}}</td>
         <td ng-show="!is_editing(u)">{{u.name}}</td>

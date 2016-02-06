@@ -3,22 +3,37 @@
 
     var app = angular.module('app');
 
-    app.factory('UserData', function ($http, ResourceGenerator) {
-        return ResourceGenerator.GetResource('/api/user/:id');
+    app.factory('UserData', function($resource) {
+        return $resource('/api/user/:id', null, {
+            'setPassword': { url: '/api/user/changepassword', method: 'PUT' },
+            'update': { method:'PUT' }
+        });
     });
 
     app.controller('userController', function($scope, $timeout, UserData, Notification) {
         $scope.u = {};
 
-        var get_all = function () {
-            UserData.query().then(function (result) {
+        var get_all = function() {
+            UserData.query().$promise.then(function(result) {
                 $scope.users = result;
             });
         };
 
-        $scope.is_editing = function (u) {
+        $scope.is_editing = function(u) {
             return $scope.u.id === u.id;
         };
+
+        $scope.password = function(u) {
+            var password = prompt('Enter new password for ' + u.username);
+            if (password !== null) {
+                UserData.setPassword({ id: u.id }, {
+                    username: u.username,
+                    password: password
+                }).$promise.then(function(result) {
+                    Notification.success('Password updated');
+                }, handle_error);
+            }
+        }; 
 
         var select_last_input = function () {
             $timeout(function () {
@@ -52,7 +67,7 @@
 
         $scope.delete = function (u) {
             if (confirm('Are you sure you want to delete user ' + u.username + '?')) {
-                UserData.del(u).then(function (result) {
+                UserData.delete(u).$promise.then(function (result) {
                     get_all();
                     Notification.success('User deleted');
                 }, handle_error);
@@ -68,8 +83,8 @@
         };
 
         $scope.save = function (u) {
-            var api = u.id ? UserData.update : UserData.insert;
-            api(u).then(function (result) {
+            var api = u.id ? UserData.update : UserData.save;
+            api(u).$promise.then(function (result) {
                 get_all();
                 $scope.u = {};
                 Notification.success('User saved');
