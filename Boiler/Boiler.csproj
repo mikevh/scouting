@@ -117,6 +117,8 @@
     <Content Include="app\todo\todo.js" />
     <Content Include="app\user\user.js" />
     <Content Include="app\user\user.tmpl.html" />
+    <Content Include="lib\angular-ui-notification\dist\angular-ui-notification.min.css" />
+    <Content Include="lib\angular-ui-notification\dist\angular-ui-notification.min.js" />
     <Content Include="lib\bootstrap\dist\css\bootstrap.min.css" />
     <Content Include="lib\bootstrap\dist\js\bootstrap.min.js" />
     <Content Include="lib\jquery\dist\jquery.min.js" />

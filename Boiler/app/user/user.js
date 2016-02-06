@@ -7,7 +7,7 @@
         return ResourceGenerator.GetResource('/api/user/:id');
     });
 
-    app.controller('userController', function($scope, $timeout, UserData) {
+    app.controller('userController', function($scope, $timeout, UserData, Notification) {
         $scope.u = {};
 
         var get_all = function () {
@@ -27,7 +27,6 @@
             });
         };
 
-
         $scope.show_add_button = function() {
             return _.isEmpty($scope.u);
         };
@@ -41,6 +40,7 @@
                 $scope.users.splice($scope.users.length - 1, 1);
             }
             $scope.u = {};
+            Notification.info('Changes cancelled');
         };
 
         $scope.add = function () {
@@ -51,9 +51,20 @@
         };
 
         $scope.delete = function (u) {
-            UserData.del(u).then(function (result) {
-                get_all();
-            });
+            if (confirm('Are you sure you want to delete user ' + u.username + '?')) {
+                UserData.del(u).then(function (result) {
+                    get_all();
+                    Notification.success('User deleted');
+                }, handle_error);
+            }
+        };
+
+        var handle_error = function(result) {
+            if (result.data && result.data.responseStatus) {
+                Notification.error(result.data.responseStatus.message);
+            } else {
+                Notification.error(result);
+            }
         };
 
         $scope.save = function (u) {
@@ -61,7 +72,8 @@
             api(u).then(function (result) {
                 get_all();
                 $scope.u = {};
-            });
+                Notification.success('User saved');
+            }, handle_error);
         };
 
         $scope.edit = function (u) {

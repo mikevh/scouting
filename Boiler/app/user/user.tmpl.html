@@ -1,33 +1,36 @@
 ﻿<table class="table table-responsive table-striped">
     <thead>
-        <tr>
-            <th>Username</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Admin</th>
-        </tr>
+    <tr>
+        <th></th>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Administrator</th>
+    </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="u in users">
-            <td ng-show="!is_editing(u) || u.id !== 0" ng-click="edit(u)">{{u.username}}</td>
-            <td ng-show="!is_editing(u)">{{u.name}}</td>
-            <td ng-show="!is_editing(u)">{{u.email}}</td>
+    <tr ng-repeat="u in users">
+        <td style="width: 50px">
+            <span ng-click="edit(u)" class="glyphicon glyphicon-edit"></span>
+            <span ng-click="delete(u)" class="glyphicon glyphicon-minus"></span>
+        </td>
+        <td ng-show="!is_editing(u) || u.id !== 0">{{u.username}}</td>
+        <td ng-show="!is_editing(u)">{{u.name}}</td>
+        <td ng-show="!is_editing(u)">{{u.email}}</td>
 
-            <td ng-show="is_editing(u) && u.id === 0"><input type="text" ng-model="u.username" /></td>
-            <td ng-show="is_editing(u)"><input type="text" ng-model="u.name" /></td>
-            <td ng-show="is_editing(u)"><input type="text" ng-model="u.email" /></td>
+        <td ng-show="is_editing(u) && u.id === 0"><input type="text" ng-model="u.username"/></td>
+        <td ng-show="is_editing(u)"><input type="text" ng-model="u.name"/></td>
+        <td ng-show="is_editing(u)"><input type="text" ng-model="u.email"/></td>
 
-            <td><input type="checkbox" ng-model="u.isAdmin" ng-disabled="!is_editing(u)" /></td>
-        </tr>
+        <td><input type="checkbox" ng-model="u.isAdmin" ng-disabled="!is_editing(u)"/></td>
+    </tr>
     </tbody>
     <tfoot>
         <tr>
-            <td>
-                <button type="button" class="btn btn-success" ng-show="show_save_button()" ng-click="save(u)">Save</button>
-                <button type="button" class="btn btn-default" ng-show="show_save_button()" ng-click="cancel()">Cancel</button>
-                <button type="button" class="btn btn-success" ng-show="show_add_button()" ng-click="add()">Add</button>
-            </td>
             <td></td>
+            <td><button type="button" class="btn btn-success" ng-show="show_save_button()" ng-click="save(u)">Save</button>
+<button type="button" class="btn btn-default" ng-show="show_save_button()" ng-click="cancel()">Cancel</button>
+<button type="button" class="btn btn-success" ng-show="show_add_button()" ng-click="add()">Add</button></td>
             <td></td>
             <td></td>
         </tr>
