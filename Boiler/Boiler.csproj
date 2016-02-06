@@ -115,6 +115,8 @@
     <Content Include="app\scout\scout.tmpl.html" />
     <Content Include="app\todo\todo.tmpl.html" />
     <Content Include="app\todo\todo.js" />
+    <Content Include="app\user\user.js" />
+    <Content Include="app\user\user.tmpl.html" />
     <Content Include="lib\bootstrap\dist\css\bootstrap.min.css" />
     <Content Include="lib\bootstrap\dist\js\bootstrap.min.js" />
     <Content Include="lib\jquery\dist\jquery.min.js" />
@@ -159,6 +161,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Extentions\User.cs" />
     <Compile Include="Models\Fielding.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -179,6 +182,9 @@
     <Compile Include="Models\Todo.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\PitchingRepository.cs" />
     <Compile Include="Repositories\HittingRepository.cs" />
     <Compile Include="Repositories\FieldingRepository.cs" />
@@ -186,6 +192,8 @@
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\TodoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\PitchingService.cs" />
     <Compile Include="Services\HittingService.cs" />
     <Compile Include="Services\FieldingService.cs" />

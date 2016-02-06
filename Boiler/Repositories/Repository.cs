@@ -28,7 +28,7 @@ namespace Boiler.Repositories
         T SingleOrDefault(Expression<Func<T, bool>> predicate);
     }
 
-    public class Repository<T> : IRepository<T>, IDisposable where T : IHasId<int>, new()
+    public abstract class Repository<T> : IRepository<T>, IDisposable where T : IHasId<int>, new()
     {
         private readonly IDbConnectionFactory _connectionFactory;
 
@@ -36,7 +36,7 @@ namespace Boiler.Repositories
             _connectionFactory = connectionFactory;
         }
 
-        private IDbConnection OpenConnection() {
+        protected IDbConnection OpenConnection() {
             if (_connectionFactory == null) {
                 throw new NullReferenceException("connection_factory null in base repository class");
             }
@@ -44,7 +44,7 @@ namespace Boiler.Repositories
             return _connectionFactory.OpenDbConnection();
         }
 
-        public List<T> All() {
+        public virtual List<T> All() {
             using (var c = OpenConnection()) {
                 return c.Select<T>();
             }
@@ -56,7 +56,7 @@ namespace Boiler.Repositories
             }
         }
 
-        public void Delete(int id, IDbTransaction transaction = null) {
+        public virtual void Delete(int id, IDbTransaction transaction = null) {
             var c = transaction?.Connection ?? OpenConnection();
 
             c.DeleteById<T>(id);
@@ -66,7 +66,7 @@ namespace Boiler.Repositories
             }
         }
 
-        public int Insert(T model, IDbTransaction transaction = null) {
+        public virtual int Insert(T model, IDbTransaction transaction = null) {
             var c = transaction?.Connection ?? OpenConnection();
 
             var rv = Convert.ToInt32(c.Insert(model, selectIdentity: true));
@@ -78,15 +78,17 @@ namespace Boiler.Repositories
             return rv;
         }
 
-        public int Update(T model, IDbTransaction transaction = null) {
+        public virtual int Update(T model, IDbTransaction transaction = null) {
             if (model.Id < 1) {
                 throw new InvalidDataException("Cannot update model with no id");
             }
 
             var c = transaction?.Connection ?? OpenConnection();
 
-            var existing = c.SingleById<T>(model.Id);
-            ThrowIfModelNotFound(model, existing);
+            var original = c.SingleById<T>(model.Id);
+            ThrowIfModelNotFound(model, original);
+            SetAuditFields(model, original);
+            
             c.Update(model);
 
             if (transaction == null) {
@@ -96,25 +98,25 @@ namespace Boiler.Repositories
             return model.Id;
         }
 
-        public IEnumerable<T> Where(Expression<Func<T, bool>> predicate) {
+        public virtual IEnumerable<T> Where(Expression<Func<T, bool>> predicate) {
             using (var c = OpenConnection()) {
                 return c.Where<T>(predicate);
             }
         }
 
-        public IEnumerable<T> Where(object anonType) {
+        public virtual IEnumerable<T> Where(object anonType) {
             using (var c = OpenConnection()) {
                 return c.Where<T>(anonType);
             }
         }
 
-        public T Single(Expression<Func<T, bool>> predicate) {
+        public virtual T Single(Expression<Func<T, bool>> predicate) {
             using (var c = OpenConnection()) {
                 return c.Single(predicate);
             }
         }
 
-        public T SingleOrDefault(Expression<Func<T, bool>> predicate) {
+        public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate) {
             using (var c = OpenConnection()) {
                 try {
                     return c.Single(predicate);
@@ -132,6 +134,17 @@ namespace Boiler.Repositories
         private void ThrowIfModelNotFound(T model, T existing) {
             var thistype = GetType().Name;
             existing.ThrowIfNull($"Record not found: {thistype} with id {model.Id}");
+        }
+
+        private void SetAuditFields(T model, T original) {
+            var audit_model = model as IHasAudit;
+            if (audit_model != null)
+            {
+                var audit_existing = original as IHasAudit;
+
+                audit_model.CreatedBy = audit_existing.CreatedBy;
+                audit_model.CreatedDate = audit_existing.CreatedDate;
+            }
         }
     }
 }

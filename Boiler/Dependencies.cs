@@ -15,6 +15,7 @@ namespace Boiler
             container.RegisterAutoWiredAs<PitchingRepository, IPitchingRepository>();
             container.RegisterAutoWiredAs<PlayerRepository, IPlayerRepository>();
             container.RegisterAutoWiredAs<TodoRepository, ITodoRepository>();
+            container.RegisterAutoWiredAs<UserRepository, IUserRepository>();
         }
     }
 }
