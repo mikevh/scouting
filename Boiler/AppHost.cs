@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using Boiler.Models;
+using Boiler.Repositories;
 using Boiler.Services;
 using Funq;
 using ServiceStack;
@@ -36,6 +37,8 @@ namespace Boiler
             Plugins.Add(new SessionFeature());
             Plugins.Add(new ValidationFeature());
 
+            //GlobalRequestFilters.Add(AuthorizationFilter);
+
             container.Register<IDbConnectionFactory>(c => new AppDbConnectionFactory());
             container.Register<IAppDbConnectionFactory>(c => new AppDbConnectionFactory());
             container.Register<ICredentialsDbConnectionFactory>(c => new CredentialsDbConnectionFactory());
@@ -47,14 +50,19 @@ namespace Boiler
             //CreateAuthDb(container);
         }
 
+        private void AuthorizationFilter(IRequest request, IResponse response, object arg3) {
+            throw new NotImplementedException();
+        }
+
         private void ConfigureAuth(Container container) {
             container.Register(GetUserSession).ReusedWithin(ReuseScope.Request);
             container.Register(GetUserProfile).ReusedWithin(ReuseScope.Request);
-            container.RegisterAutoWiredAs<BoilerAuthRepository, IAuthRepository>().ReusedWithin(ReuseScope.Request);
-            container.RegisterAutoWiredAs<BoilerAuthRepository, IUserAuthRepository>().ReusedWithin(ReuseScope.Request);
+            container.RegisterAutoWiredAs<OrmLiteAuthRepository, IAuthRepository>().ReusedWithin(ReuseScope.Request);
+            container.RegisterAutoWiredAs<OrmLiteAuthRepository, IUserAuthRepository>().ReusedWithin(ReuseScope.Request);
+            container.RegisterAutoWired<BoilerCredentialsAuthProvider>();
 
-            var auth_providers = new IAuthProvider[] {new CredentialsAuthProvider() };
-            var auth_feature = new AuthFeature(() => new UserSession(), auth_providers) {
+            var auth_providers = new IAuthProvider[] {container.Resolve<BoilerCredentialsAuthProvider>() };
+            var auth_feature = new AuthFeature(() => new BoilerUserSession(), auth_providers) {
                 HtmlRedirect = "/login.html"
             };
             Plugins.Add(auth_feature);
@@ -64,38 +72,72 @@ namespace Boiler
             OrmLiteConfig.InsertFilter = RepositoryFilters.InsertFilter(container);
         }
 
-        private UserSession GetUserSession(Container container)
+        private BoilerUserSession GetUserSession(Container container)
         {
             var cache_client = container.Resolve<ICacheClient>();
-            var session = SessionFeature.GetOrCreateSession<UserSession>(cache_client);
+            var session = SessionFeature.GetOrCreateSession<BoilerUserSession>(cache_client);
             return session;
         }
 
         private UserProfile GetUserProfile(Container container)
         {
-            var session = container.Resolve<UserSession>();
+            var session = container.Resolve<BoilerUserSession>();
             return session.ToUserProfile();
         }
 
         private void CreateAuthDb(Container container) {
             var db = container.Resolve<ICredentialsDbConnectionFactory>();
+            var user_repo = container.Resolve<IUserRepository>();
+
             var repo = new OrmLiteAuthRepository(db);
             repo.DropAndReCreateTables();
-            var admin_user = repo.CreateUserAuth(new UserAuth {
-                UserName = "admin",
-                Email = "admin@admin.com",
-            }, "password");
-            repo.SaveUserAuth(admin_user);
 
+            user_repo.Insert(new User {
+                Username = "admin",
+                Email = "admin@admin.com",
+                Password = "password",
+                IsAdmin = true,
+                Name = "administrator"
+            });
         }
     }
 
-    public class BoilerAuthRepository : OrmLiteAuthRepository
+    public class BoilerCredentialsAuthProvider : CredentialsAuthProvider
     {
-        public BoilerAuthRepository(ICredentialsDbConnectionFactory dbFactory) : base(dbFactory) {}
+        private readonly IUserRepository _user_repository;
+        private readonly IUserAuthRepository _userauth_repository;
+
+        public BoilerCredentialsAuthProvider(IUserRepository user_repository, IUserAuthRepository userauth_repository) {
+            _user_repository = user_repository;
+            _userauth_repository = userauth_repository;
+        }
+
+        public override IHttpResult OnAuthenticated(IServiceBase authService, IAuthSession session, IAuthTokens tokens, Dictionary<string, string> authInfo) {
+
+            var credentials = _userauth_repository.GetUserAuthByUserName(session.UserAuthName);
+            session.IsAuthenticated = true;
+            session.UserAuthId = credentials.Id.ToString();
+            session.Email = credentials.Email;
+
+            var user = _user_repository.SingleOrDefault(x => x.Username == credentials.UserName);
+
+            var boilerSession = session as BoilerUserSession;
+            if (boilerSession != null && user != null) {
+                boilerSession.UserProfile = new UserProfile {
+                    Username = user.Username,
+                    Email = user.Email,
+                    Id = user.Id,
+                    IsAdmin = user.IsAdmin
+                };
+            }
+
+            authService.SaveSession(session);
+
+            return null;
+        }
     }
 
-    public class UserSession : AuthUserSession
+    public class BoilerUserSession : AuthUserSession
     {
         public UserProfile UserProfile { get; set; }
 
@@ -150,7 +192,11 @@ namespace Boiler
             return (command, model) => {
                 var audit_model = model as IHasAudit;
                 if (audit_model != null) {
-                    var profile = container.Resolve<UserProfile>();
+                    var request = ServiceStackHost.Instance.TryGetCurrentRequest();
+                    var profile = new UserProfile {Username = "anonymous"};
+                    if (request != null) {
+                        profile = container.Resolve<UserProfile>();
+                    }
                     var now = DateTime.UtcNow;
                     audit_model.CreatedBy = profile.Username;
                     audit_model.CreatedDate = now;
