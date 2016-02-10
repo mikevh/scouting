@@ -10,7 +10,7 @@
         });
     });
 
-    app.controller('userController', function($scope, $timeout, UserData, Notification) {
+    app.controller('userController', function ($scope, UserData, Notification) {
         $scope.u = {};
 
         var handle_error = function (result) {
@@ -32,7 +32,7 @@
             return $scope.u.id === u.id;
         };
 
-        $scope.password = function(u) {
+        $scope.password = function (u) {
             var password = prompt('Enter new password for ' + u.username);
             if (password !== null) {
                 UserData.setPassword({ id: u.id }, {

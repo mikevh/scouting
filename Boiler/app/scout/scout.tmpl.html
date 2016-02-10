@@ -1,14 +1,11 @@
 ﻿<div>
     Select Player:
-    <select ng-model="selectPlayer" ng-options="p.playerName for p in players">
-        <option value="">Select Player</option>
-    </select>
+    <select ng-model="selectPlayer" ng-options="p.id as p.playerName for p in players"></select>
 
     <p>Currently selected: {{ {selected_p:selectPlayer} }}</p>
-    <p>PlayerNumber: {{ selectPlayer.playerNumber }}</p>
-    <p>PlayerNumber: {{ selectPlayer.playerName }}</p>
-    <p>PlayerNumber: {{ selectPlayer.playerLeagueAge }}</p>
-
+    <p>PlayerNumber: {{ players[selectPlayer].playerNumber }}</p>
+    <p>PlayerNumber: {{ players[selectPlayer].playerName }}</p>
+    <p>PlayerNumber: {{ players[selectPlayer].playerLeagueAge }}</p>
 
     <div class="container">
         <div>

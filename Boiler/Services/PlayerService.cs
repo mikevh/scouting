@@ -13,6 +13,9 @@ namespace Boiler.Services
     public class PlayerService : SecureBaseService
     {
         public IPlayerRepository player_repository { get; set; }
+        public IFieldingRepository fielding_repository { get; set; }
+        public IHittingRepository hitting_repository { get; set; }
+        public IPitchingRepository pitching_repository { get; set; }
 
         public object Get(GetPlayersRequest request) {
             
@@ -50,6 +53,36 @@ namespace Boiler.Services
             player_repository.Delete(request.Id);
             return new HttpResult { StatusCode = HttpStatusCode.Accepted };
         }
+
+        public object Put(GetPlayerScoresRequest request) {
+
+            var fielding = fielding_repository.Where(new {PlayerId = request.Id})
+                .OrderByDescending(x => x.CreatedDate)
+                .Select(x => x.ConvertTo<FieldingResponse>());
+
+            var hitting = hitting_repository.Where(new {PlayerId = request.Id})
+                .OrderByDescending(x => x.CreatedDate)
+                .Select(x => x.ConvertTo<HittingResponse>());
+
+            var pitching = pitching_repository.Where(new {PlayerId = request.Id})
+                .OrderByDescending(x => x.CreatedDate)
+                .Select(x => x.ConvertTo<PitchingResponse>());
+
+            var rv = new PlayerScoresResponse {
+                PlayerId = request.Id,
+                Fielding = fielding,
+                Hitting = hitting,
+                Pitching = pitching
+            };
+
+            return rv;
+        }
+    }
+    [Route("/player/scoresForPlayer", "PUT")]
+    [Route("/player/scoresForPlayer/{id}", "PUT")]
+    public class GetPlayerScoresRequest : IReturn<PlayerScoresResponse>
+    {
+        public int Id { get; set; }
     }
 
     [Route("/player", "GET")]
@@ -118,6 +151,14 @@ namespace Boiler.Services
         public int Id { get; set; }
     }
 
+    public class PlayerScoresResponse
+    {
+        public int PlayerId { get; set; }
+        public IEnumerable<FieldingResponse> Fielding { get; set; } 
+        public IEnumerable<HittingResponse> Hitting { get; set; } 
+        public IEnumerable<PitchingResponse> Pitching { get; set; }
+    }
+
     public class PlayerResponse
     {
         public int Id { get; set; }
@@ -138,6 +179,13 @@ namespace Boiler.Services
         public string Throws { get; set; }
         public string Bats { get; set; }
         public string PlayerNote { get; set; }
+    }
+
+    public class GetPlayerScoresRequestValidator : AbstractValidator<GetPlayerScoresRequest>
+    {
+        public GetPlayerScoresRequestValidator() {
+            RuleFor(x => x.Id).NotEmpty();
+        }
     }
 
     public class DeletePlayerRequestValidator : AbstractValidator<DeletePlayerRequest>
