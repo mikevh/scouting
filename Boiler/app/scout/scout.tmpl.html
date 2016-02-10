@@ -1,42 +1,42 @@
-﻿
-<div>
-Select Player:
+﻿<div>
+    Select Player:
     <select ng-model="selectPlayer" ng-options="p.playerName for p in players">
         <option value="">Select Player</option>
     </select>
 
-<p>Currently selected: {{ {selected_p:selectPlayer} }}</p>
+    <p>Currently selected: {{ {selected_p:selectPlayer} }}</p>
     <p>PlayerNumber: {{ selectPlayer.playerNumber }}</p>
     <p>PlayerNumber: {{ selectPlayer.playerName }}</p>
     <p>PlayerNumber: {{ selectPlayer.playerLeagueAge }}</p>
-    
 
-    <div class="container" >
+
+    <div class="container">
         <div>
-          
-                <ul class="nav nav-tabs">
-                    <li class="active"><a showtab data-toggle="tab" href="#fielding">Fielding</a></li>
-                    <li><a showtab data-toggle="tab" href="#hitting">Hitting</a></li>
-                    <li><a showtab data-toggle="tab" href="#pitching">Pitching</a></li>
-                </ul>
-      
-                <div class="tab-content">
-                    <div class="tab-pane active" id="fielding">
-                        <h1>Fielding</h1>
-                        <p>Fielding scores</p>
-                    </div>
-                    <div class="tab-pane" id="hitting">
-                        <h1>Hitting</h1>
-                        <p>Hitting scores</p>
-                    </div>
-                    <div class="tab-pane" id="pitching">
-                        <h1>Pitching</h1>
-                        <p>Pitching scores</p>
-                    </div>
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a showtab data-toggle="tab" href="#fielding">Fielding</a></li>
+                <li><a showtab data-toggle="tab" href="#hitting">Hitting</a></li>
+                <li><a showtab data-toggle="tab" href="#pitching">Pitching</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="fielding">
+                    <h1>Fielding</h1>
+                    <p>Fielding scores</p>
                 </div>
-  
-        
+                <div class="tab-pane" id="hitting">
+                    <h1>Hitting</h1>
+                    <p>Hitting scores</p>
+                </div>
+                <div class="tab-pane" id="pitching">
+                    <h1>Pitching</h1>
+                    <p>Pitching scores</p>
+                </div>
+            </div>
+
+
         </div>
 
 
-   </div>
+    </div>
+</div>
