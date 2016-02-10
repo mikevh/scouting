@@ -11,34 +11,25 @@ Select Player:
     <p>PlayerNumber: {{ selectPlayer.playerLeagueAge }}</p>
     
 
-
-    <div class="container" ng-app="tabApp">
-
-        <div ng-controller="TabController">
+    <div class="container" >
+        <div>
           
                 <ul class="nav nav-tabs">
-                    <li ng-class="{ active: isSet(1) }">
-                        <a datatoggle="tab" href="#" ng-click="setTab(1)">Fielding</a>
-                    </li>
-                    <li ng-class="{ active: isSet(2) }">
-                        <a datatoggle="tab" href="#" ng-click="setTab(2)">Hitting</a>
-                    </li>
-                    <li ng-class="{ active: isSet(3) }">
-                        <a datatoggle="tab" href="#" ng-click="setTab(3)">Pitching</a>
-                    </li>
+                    <li class="active"><a showtab data-toggle="tab" href="#fielding">Fielding</a></li>
+                    <li><a showtab data-toggle="tab" href="#hitting">Hitting</a></li>
+                    <li><a showtab data-toggle="tab" href="#pitching">Pitching</a></li>
                 </ul>
-       
       
-                <div class="jumbotron">
-                    <div ng-show="isSet(1)">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="fielding">
                         <h1>Fielding</h1>
                         <p>Fielding scores</p>
                     </div>
-                    <div ng-show="isSet(2)">
+                    <div class="tab-pane" id="hitting">
                         <h1>Hitting</h1>
                         <p>Hitting scores</p>
                     </div>
-                    <div ng-show="isSet(3)">
+                    <div class="tab-pane" id="pitching">
                         <h1>Pitching</h1>
                         <p>Pitching scores</p>
                     </div>

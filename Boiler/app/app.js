@@ -3,7 +3,7 @@
 
     var app = angular.module('app', ['ngRoute', 'ngResource', 'ui-notification']);
 
-    app.config(function ($routeProvider, $locationProvider) {
+    app.config(function ($routeProvider) {
         var routes = [
             { url: '/', config: { templateUrl: '/app/index.tmpl.html', controller: 'indexController' } },
             { url: '/todo', config: { templateUrl: '/app/todo/todo.tmpl.html', controller: 'todoController' } },
@@ -14,7 +14,6 @@
         ];
         _.each(routes, function (x) { $routeProvider.when(x.url, x.config); });
         $routeProvider.otherwise({ redirectTo: '/' });
-        //$locationProvider.html5Mode(true);
     });
 
     app.factory('AuthorizationRedirectInterceptor', function ($q, $window) {
@@ -78,4 +77,15 @@
         };
     }]);
 
+    app.directive('showtab', function() {
+        return {
+            link: function(scope, element, attrs) {
+                element.click(function (e) {
+                    console.log(element);
+                    e.preventDefault();
+                    $(element).tab('show');
+                });
+            }
+        };
+    });
 })();
