@@ -8,7 +8,7 @@
     <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="lib/angular-ui-notification/dist/angular-ui-notification.min.css" rel="stylesheet" />
 </head>
-<body ng-app="app" ng-cloak ng-controller="indexController" >
+<body ng-app="app" ng-cloak ng-controller="indexController">
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -18,38 +18,46 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Scout</a>
+            <a class="navbar-brand" href="#/">Scout</a>
         </div>
-        <div id="navbar" class="collapse navbar-collapse">
+        <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <!--<li><a href="#/todo">Todo</a></li>-->
-                <li><a href="#/scout">Scout</a></li>
-                <li><a href="#/fielding">Fielding</a></li>
-                <li><a href="#/player">Players</a></li>
-                <li><a href="#/user">Users</a></li>
-
+                <li><a href="#/scout" ng-class="{active: is_active('/scout')}">Scout</a></li>
+                <li><a href="#/fielding" ng-class="{active: is_active('/fielding')}">Fielding</a></li>
+                <li><a href="#/player" ng-class="{active: is_active('/player')}">Players</a></li>
+                <li><a href="#/user" ng-class="{active: is_active('/user')}">Users</a></li>
             </ul>
-        </div><!--/.nav-collapse -->
+            <!--<form class="navbar-form navbar-right">
+                <div class="form-group">
+                    <input type="text" placeholder="Email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">Sign in</button>
+            </form>-->
+        </div>
     </div>
 </nav>
+
 
 <div class="container" style="padding-top: 60px;">
     <ng-view></ng-view>
 </div>
 
 <script src="lib/jquery/dist/jquery.min.js"></script>
-    <script src="lib/angular/angular.min.js"></script>
-    <script src="lib/angular-route/angular-route.min.js"></script>
-    <script src="lib/angular-resource/angular-resource.min.js"></script>
-    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="lib/underscore/underscore-min.js"></script>
-    <script src="lib/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
+<script src="lib/angular/angular.min.js"></script>
+<script src="lib/angular-route/angular-route.min.js"></script>
+<script src="lib/angular-resource/angular-resource.min.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="lib/underscore/underscore-min.js"></script>
+<script src="lib/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
 
-    <script src="app/app.js"></script>
-    <script src="app/index.js"></script>
-    <script src="app/scout/scout.js"></script>
-    <script src="app/fielding/fielding.js"></script>
-    <script src="app/player/player.js"></script>
-    <script src="app/user/user.js"></script>
+<script src="app/app.js"></script>
+<script src="app/index.js"></script>
+<script src="app/scout/scout.js"></script>
+<script src="app/fielding/fielding.js"></script>
+<script src="app/player/player.js"></script>
+<script src="app/user/user.js"></script>
 </body>
 </html>

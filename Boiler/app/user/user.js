@@ -13,10 +13,19 @@
     app.controller('userController', function($scope, $timeout, UserData, Notification) {
         $scope.u = {};
 
+        var handle_error = function (result) {
+            if (result.data && result.data.responseStatus) {
+                Notification.error(result.data.responseStatus.message);
+            } else {
+                var msg = "HTTP " + result.status + ": " + result.statusText;
+                Notification.error(msg);
+            }
+        };
+
         var get_all = function() {
             UserData.query().$promise.then(function(result) {
                 $scope.users = result;
-            });
+            }, handle_error);
         };
 
         $scope.is_editing = function(u) {
@@ -74,13 +83,7 @@
             }
         };
 
-        var handle_error = function(result) {
-            if (result.data && result.data.responseStatus) {
-                Notification.error(result.data.responseStatus.message);
-            } else {
-                Notification.error(result);
-            }
-        };
+        
 
         $scope.save = function (u) {
             var api = u.id ? UserData.update : UserData.save;

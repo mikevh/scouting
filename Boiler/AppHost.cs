@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using Boiler.Models;
@@ -37,8 +38,6 @@ namespace Boiler
             Plugins.Add(new SessionFeature());
             Plugins.Add(new ValidationFeature());
 
-            //GlobalRequestFilters.Add(AuthorizationFilter);
-
             container.Register<IDbConnectionFactory>(c => new AppDbConnectionFactory());
             container.Register<IAppDbConnectionFactory>(c => new AppDbConnectionFactory());
             container.Register<ICredentialsDbConnectionFactory>(c => new CredentialsDbConnectionFactory());
@@ -48,10 +47,6 @@ namespace Boiler
             ConfigureAuth(container);
             RegisterOrmLiteFilters(container);
             //CreateAuthDb(container);
-        }
-
-        private void AuthorizationFilter(IRequest request, IResponse response, object arg3) {
-            throw new NotImplementedException();
         }
 
         private void ConfigureAuth(Container container) {
@@ -113,32 +108,22 @@ namespace Boiler
         }
 
         public override IHttpResult OnAuthenticated(IServiceBase authService, IAuthSession session, IAuthTokens tokens, Dictionary<string, string> authInfo) {
-
             var credentials = _userauth_repository.GetUserAuthByUserName(session.UserAuthName);
-            session.IsAuthenticated = true;
-            session.UserAuthId = credentials.Id.ToString();
-            session.Email = credentials.Email;
-
             var user = _user_repository.SingleOrDefault(x => x.Username == credentials.UserName);
-
-            var boilerSession = session as BoilerUserSession;
-            if (boilerSession != null && user != null) {
-                boilerSession.UserProfile = new UserProfile {
-                    Username = user.Username,
-                    Email = user.Email,
-                    Id = user.Id,
-                    IsAdmin = user.IsAdmin
-                };
+            if (user.IsAdmin) {
+                session.Roles.Add("Admin");
             }
-
-            authService.SaveSession(session);
-
-            return null;
+            return base.OnAuthenticated(authService, session, tokens, authInfo);
         }
     }
 
     public class BoilerUserSession : AuthUserSession
     {
+        public override bool HasRole(string role) {
+            var rv = Roles.Contains(role) || base.HasRole(role);
+            return rv;
+        }
+
         public UserProfile UserProfile { get; set; }
 
         public UserProfile ToUserProfile() {
