@@ -14,6 +14,31 @@
         $scope.p = {};
         $scope.selectPlayer = 0;
 
+        $scope.f = {
+            fielding: {
+                mechanics: 1,
+                range: 1,
+                hands: 1,
+                armStrength: 1
+            },
+            hitting: {
+                mechanics: 1,
+                power: 1,
+                contact: 1
+            },
+            pitching: {
+                mechanics: 1,
+                velocity: 1,
+                command: 1
+            }
+        };
+
+        $scope.possible = [1, 2, 3, 4, 5];
+
+        $scope.add = function(metric) {
+
+        };
+
         var handle_error = function (result) {
             if (result.data && result.data.responseStatus) {
                 Notification.error(result.data.responseStatus.message);
