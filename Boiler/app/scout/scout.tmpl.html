@@ -7,7 +7,7 @@
 </style>
 <div>
     Select Player:
-    <select ng-model="selectPlayer" ng-options="p.id as p.playerName for p in players"></select>
+    <select ng-model="selectPlayer" ng-options="p.id as (p.playerNumber + ' ' + p.playerName) for p in players"></select>
 
     <p>Currently selected: {{ {selected_p:selectPlayer} }}</p>
     <p>PlayerNumber: {{ players[selectPlayer].playerNumber }}</p>
