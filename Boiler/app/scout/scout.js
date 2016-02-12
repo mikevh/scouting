@@ -34,7 +34,7 @@
             }
         };
 
-        $scope.possible = [1, 2, 3, 4, 5];
+        $scope.possible = _.range(5);
 
         $scope.add = function(metric) {
 
