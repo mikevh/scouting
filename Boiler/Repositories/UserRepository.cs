@@ -28,7 +28,7 @@ namespace Boiler.Repositories
             userauth_repository.UpdateUserAuth(userauth, userauth, password);
         }
 
-        public override int Insert(User model, IDbTransaction transaction = null) {
+        public new int Insert(User model, IDbTransaction transaction = null) {
             using (var trans = OpenConnection().OpenTransaction()) {
                 var rv = base.Insert(model, transaction);
 
@@ -44,7 +44,7 @@ namespace Boiler.Repositories
             }
         }
 
-        public override int Update(User model, IDbTransaction transaction = null) {
+        public new int Update(User model, IDbTransaction transaction = null) {
 
             base.Update(model, transaction);
 
@@ -55,7 +55,7 @@ namespace Boiler.Repositories
             return model.Id;
         }
 
-        public override void Delete(int id, IDbTransaction transaction = null) {
+        public new void Delete(int id, IDbTransaction transaction = null) {
 
             var conn = transaction?.Connection ?? OpenConnection();
             var trans = transaction ?? conn.OpenTransaction();

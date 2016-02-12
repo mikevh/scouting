@@ -29,8 +29,6 @@ namespace Boiler.Models
         [Required]
         public string Username { get; set; }
         [Required]
-        public bool IsAdmin { get; set; }
-        [Required]
         public string CreatedBy { get; set; }
         [Required]
         public DateTime CreatedDate { get; set; }

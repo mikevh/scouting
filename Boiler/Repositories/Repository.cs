@@ -44,7 +44,7 @@ namespace Boiler.Repositories
             return _connectionFactory.OpenDbConnection();
         }
 
-        public virtual List<T> All() {
+        public List<T> All() {
             using (var c = OpenConnection()) {
                 return c.Select<T>();
             }
@@ -56,7 +56,7 @@ namespace Boiler.Repositories
             }
         }
 
-        public virtual void Delete(int id, IDbTransaction transaction = null) {
+        public void Delete(int id, IDbTransaction transaction = null) {
             var c = transaction?.Connection ?? OpenConnection();
 
             c.DeleteById<T>(id);
@@ -66,7 +66,7 @@ namespace Boiler.Repositories
             }
         }
 
-        public virtual int Insert(T model, IDbTransaction transaction = null) {
+        public int Insert(T model, IDbTransaction transaction = null) {
             var c = transaction?.Connection ?? OpenConnection();
 
             var rv = Convert.ToInt32(c.Insert(model, selectIdentity: true));
@@ -78,7 +78,7 @@ namespace Boiler.Repositories
             return rv;
         }
 
-        public virtual int Update(T model, IDbTransaction transaction = null) {
+        public int Update(T model, IDbTransaction transaction = null) {
             if (model.Id < 1) {
                 throw new InvalidDataException("Cannot update model with no id");
             }
@@ -98,25 +98,25 @@ namespace Boiler.Repositories
             return model.Id;
         }
 
-        public virtual IEnumerable<T> Where(Expression<Func<T, bool>> predicate) {
+        public IEnumerable<T> Where(Expression<Func<T, bool>> predicate) {
             using (var c = OpenConnection()) {
                 return c.Where<T>(predicate);
             }
         }
 
-        public virtual IEnumerable<T> Where(object anonType) {
+        public IEnumerable<T> Where(object anonType) {
             using (var c = OpenConnection()) {
                 return c.Where<T>(anonType);
             }
         }
 
-        public virtual T Single(Expression<Func<T, bool>> predicate) {
+        public T Single(Expression<Func<T, bool>> predicate) {
             using (var c = OpenConnection()) {
                 return c.Single(predicate);
             }
         }
 
-        public virtual T SingleOrDefault(Expression<Func<T, bool>> predicate) {
+        public T SingleOrDefault(Expression<Func<T, bool>> predicate) {
             using (var c = OpenConnection()) {
                 try {
                     return c.Single(predicate);
@@ -127,7 +127,7 @@ namespace Boiler.Repositories
             }
         }
 
-        public virtual void Dispose() {
+        public void Dispose() {
             
         }
 

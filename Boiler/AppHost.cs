@@ -12,6 +12,7 @@ using Funq;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Caching;
+using ServiceStack.Configuration;
 using ServiceStack.OrmLite;
 using ServiceStack.OrmLite.SqlServer;
 using ServiceStack.Text;
@@ -54,9 +55,8 @@ namespace Boiler
             container.Register(GetUserProfile).ReusedWithin(ReuseScope.Request);
             container.RegisterAutoWiredAs<OrmLiteAuthRepository, IAuthRepository>().ReusedWithin(ReuseScope.Request);
             container.RegisterAutoWiredAs<OrmLiteAuthRepository, IUserAuthRepository>().ReusedWithin(ReuseScope.Request);
-            container.RegisterAutoWired<BoilerCredentialsAuthProvider>();
 
-            var auth_providers = new IAuthProvider[] {container.Resolve<BoilerCredentialsAuthProvider>() };
+            var auth_providers = new IAuthProvider[] { new CredentialsAuthProvider() };
             var auth_feature = new AuthFeature(() => new BoilerUserSession(), auth_providers) {
                 HtmlRedirect = "/login.html"
             };
@@ -87,43 +87,21 @@ namespace Boiler
             var repo = new OrmLiteAuthRepository(db);
             repo.DropAndReCreateTables();
 
+            // user_repo creates the userauthrecord
             user_repo.Insert(new User {
                 Username = "admin",
                 Email = "admin@admin.com",
                 Password = "password",
-                IsAdmin = true,
                 Name = "administrator"
             });
-        }
-    }
 
-    public class BoilerCredentialsAuthProvider : CredentialsAuthProvider
-    {
-        private readonly IUserRepository _user_repository;
-        private readonly IUserAuthRepository _userauth_repository;
-
-        public BoilerCredentialsAuthProvider(IUserRepository user_repository, IUserAuthRepository userauth_repository) {
-            _user_repository = user_repository;
-            _userauth_repository = userauth_repository;
-        }
-
-        public override IHttpResult OnAuthenticated(IServiceBase authService, IAuthSession session, IAuthTokens tokens, Dictionary<string, string> authInfo) {
-            var credentials = _userauth_repository.GetUserAuthByUserName(session.UserAuthName);
-            var user = _user_repository.SingleOrDefault(x => x.Username == credentials.UserName);
-            if (user.IsAdmin) {
-                session.Roles.Add("Admin");
-            }
-            return base.OnAuthenticated(authService, session, tokens, authInfo);
+            var admin_userauth = repo.GetUserAuthByUserName("admin");
+            repo.AssignRoles(admin_userauth, new [] { RoleNames.Admin });
         }
     }
 
     public class BoilerUserSession : AuthUserSession
     {
-        public override bool HasRole(string role) {
-            var rv = Roles.Contains(role) || base.HasRole(role);
-            return rv;
-        }
-
         public UserProfile UserProfile { get; set; }
 
         public UserProfile ToUserProfile() {
@@ -132,7 +110,7 @@ namespace Boiler
                     Id = UserProfile?.Id ?? 0,
                     Username = base.UserAuthName,
                     Email = base.Email,
-                    IsAdmin = UserProfile?.IsAdmin ?? false
+                    IsAdmin = HasRole(RoleNames.Admin)
                 };
             }
             return new UserProfile {

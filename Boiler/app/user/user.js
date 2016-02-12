@@ -10,7 +10,28 @@
         });
     });
 
-    app.controller('userController', function ($scope, UserData, Notification) {
+    app.factory('RoleData', function($http) {
+        var addRole = function(username, role) {
+            return $http.post('/api/assignroles', {
+                UserName: username,
+                Roles: [role]
+            });
+        };
+
+        var removeRole = function(username, role) {
+            return $http.post('/api/unassignroles', {
+                UserName: username,
+                Roles: [role]
+            });
+        };
+
+        return {
+            addRole: addRole,
+            removeRole: removeRole
+        };
+    });
+
+    app.controller('userController', function ($scope, UserData, Notification, RoleData) {
         $scope.u = {};
 
         var handle_error = function (result) {
@@ -83,14 +104,20 @@
             }
         };
 
-        
-
         $scope.save = function (u) {
             var api = u.id ? UserData.update : UserData.save;
             api(u).$promise.then(function (result) {
-                get_all();
+                
                 $scope.u = {};
                 Notification.success('User saved');
+
+                if (u.isAdmin) {
+                    RoleData.addRole(u.username, 'Admin').$promise.then(null, handle_error);
+                } else {
+                    RoleData.removeRole(u.username, 'Admin').$promise.then(null, handle_error);
+                }
+                get_all();
+
             }, handle_error);
         };
 

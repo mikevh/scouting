@@ -6,6 +6,8 @@ using System.Web;
 using Boiler.Models;
 using Boiler.Repositories;
 using ServiceStack;
+using ServiceStack.Auth;
+using ServiceStack.Configuration;
 using ServiceStack.FluentValidation;
 
 namespace Boiler.Services
@@ -14,10 +16,13 @@ namespace Boiler.Services
     public class UserService : SecureBaseService
     {
         public IUserRepository user_repository { get; set; }
+        public IUserAuthRepository userauth_repository { get; set; }
 
         public object Get(GetUsersRequest request) {
             var data = user_repository.All();
             var response = data.Select(x => x.ConvertTo<UserResponse>()).ToList();
+
+            response.ForEach(x => x.IsAdmin = userauth_repository.GetUserAuthByUserName(x.Username).Roles.Contains(RoleNames.Admin));
 
             return response;
         }
@@ -25,6 +30,7 @@ namespace Boiler.Services
         public object Get(GetUserRequest request) {
             var data = user_repository.GetById(request.Id);
             var response = data.ConvertTo<UserResponse>();
+            response.IsAdmin = userauth_repository.GetUserAuthByUserName(response.Username).Roles.Contains(RoleNames.Admin);
 
             return response;
         }

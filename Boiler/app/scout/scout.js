@@ -24,7 +24,7 @@
         };
 
         var get_all = function () {
-            PlayerData.query().$promise.then(function (result) {
+            PlayerData.query().then(function (result) {
                 $scope.players = result;
                 $scope.players.unshift({ id: 0, playerName: '--Select Player--' });
             }, handle_error);
