@@ -5,7 +5,8 @@
 
     app.factory('PlayerData', function($resource) {
         return $resource('/api/player/:id', null, {
-            scoresForPlayer: { url: '/api/player/scoresForPlayer' }
+            scoresForPlayer: { url: '/api/player/scoresForPlayer' },
+            postScore: { url: '/api/player/addscore', method: 'POST'}
         });
     });
 
@@ -37,6 +38,14 @@
 
         $scope.add = function(metric) {
 
+            var data_to_send = {
+                data: $scope.f[metric],
+                playerId: $scope.selectPlayer
+            };
+
+            PlayerData.postScore(data_to_send).$promise.then(function (result) {
+
+            }, handle_error);
         };
 
         var handle_error = function (result) {

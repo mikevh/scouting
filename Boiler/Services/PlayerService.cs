@@ -77,7 +77,27 @@ namespace Boiler.Services
 
             return rv;
         }
+
+        public object Post(AddScoreRequest request) {
+            // switch here on data type, insert into repository
+            throw new NotImplementedException();
+        }
     }
+
+    [Route("/player/addscore", "POST")]
+    public class AddScoreRequest
+    {
+        public int PlayerId { get; set; }
+        
+        // data
+    }
+
+    [Route("/player/addfielding", "POST")]
+    public class CreateFieldingReportRequest
+    {
+        public int PlayerId { get; set; }
+    }
+
     [Route("/player/scoresForPlayer", "PUT")]
     [Route("/player/scoresForPlayer/{id}", "PUT")]
     public class GetPlayerScoresRequest : IReturn<PlayerScoresResponse>
