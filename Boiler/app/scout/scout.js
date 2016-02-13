@@ -3,49 +3,53 @@
     
     var app = angular.module('app');
 
-    app.factory('PlayerData', function($resource) {
+    app.factory('PlayerData', function($resource, $http) {
         return $resource('/api/player/:id', null, {
-            scoresForPlayer: { url: '/api/player/scoresForPlayer' },
-            postScore: { url: '/api/player/addscore', method: 'POST'}
+            scoresForPlayer: { url: '/api/player/scoresForPlayer' }
+
         });
     });
 
-    app.controller('scoutController', function ($scope, Notification, PlayerData) {
+    app.controller('scoutController', function ($scope, Notification, PlayerData, $resource, $http) {
 
         $scope.p = {};
         $scope.selectPlayer = 0;
 
         $scope.f = {
             fielding: {
-                mechanics: 1,
-                range: 1,
-                hands: 1,
-                armStrength: 1
+                mechanics: 0,
+                range: 0,
+                hands: 0,
+                armStrength: 0,
+                fieldingNote: ''
             },
             hitting: {
                 mechanics: 1,
                 power: 1,
-                contact: 1
+                contact: 1,
+                hittingNote: '',
             },
             pitching: {
                 mechanics: 1,
                 velocity: 1,
-                command: 1
+                command: 1,
+                pitchingNote: ''
             }
         };
 
-        $scope.possible = _.range(5);
+        $scope.possible = _.range(1,6);
+
+        var postFielding = function() {
+            $scope.f.fielding.playerId = $scope.selectPlayer;
+            $http.post('/api/fielding', $scope.f.fielding).then(function (result) {
+                debugger;
+            }, handle_error);
+        };
 
         $scope.add = function(metric) {
-
-            var data_to_send = {
-                data: $scope.f[metric],
-                playerId: $scope.selectPlayer
-            };
-
-            PlayerData.postScore(data_to_send).$promise.then(function (result) {
-
-            }, handle_error);
+            if (metric === 'fielding') {
+                postFielding();
+            }
         };
 
         var handle_error = function (result) {
@@ -64,9 +68,9 @@
             }, handle_error);
         };
 
-        $scope.$watch('selectPlayer', function () {
-            $scope.get_scores_for_player_id($scope.selectPlayer);
-        });
+        //$scope.$watch('selectPlayer', function () {
+        //    $scope.get_scores_for_player_id($scope.selectPlayer);
+        //});
 
         $scope.get_scores_for_player_id = function (id) {
             if (!id) {
@@ -74,6 +78,7 @@
             }
             
             PlayerData.scoresForPlayer({ id: id }, {}).$promise.then(function (result) {
+                debugger;
                 console.log(result);
                 // todo: handle results
             }, handle_error);
