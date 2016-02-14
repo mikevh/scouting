@@ -102,6 +102,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="lib\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Models\OrmLite.Core.ttinclude">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OrmLite.Core1.cs</LastGenOutput>
