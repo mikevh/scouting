@@ -15,41 +15,38 @@
         $scope.p = {};
         $scope.selectPlayer = 0;
 
-        $scope.f = {
-            fielding: {
-                mechanics: 0,
-                range: 0,
-                hands: 0,
-                armStrength: 0,
-                fieldingNote: ''
-            },
-            hitting: {
-                mechanics: 1,
-                power: 1,
-                contact: 1,
-                hittingNote: '',
-            },
-            pitching: {
-                mechanics: 1,
-                velocity: 1,
-                command: 1,
-                pitchingNote: ''
-            }
+        var reset_metrics = function() {
+            $scope.f = {
+                fielding: {
+                    mechanics: 0,
+                    range: 0,
+                    hands: 0,
+                    armStrength: 0,
+                    fieldingNote: ''
+                },
+                hitting: {
+                    mechanics: 0,
+                    power: 0,
+                    contact: 0,
+                    hittingNote: '',
+                },
+                pitching: {
+                    mechanics: 0,
+                    velocity: 0,
+                    command: 0,
+                    pitchingNote: ''
+                }
+            };
         };
 
         $scope.possible = _.range(1,6);
 
-        var postFielding = function() {
-            $scope.f.fielding.playerId = $scope.selectPlayer;
-            $http.post('/api/fielding', $scope.f.fielding).then(function (result) {
-                debugger;
+        $scope.add = function (metric) {
+            $scope.f[metric].playerId = $scope.selectPlayer;
+            $http.post('/api/' + metric, $scope.f[metric]).then(function (result) {
+                reset_metrics();
+                Notification.success('Score posted successfully');
             }, handle_error);
-        };
-
-        $scope.add = function(metric) {
-            if (metric === 'fielding') {
-                postFielding();
-            }
         };
 
         var handle_error = function (result) {
@@ -68,10 +65,6 @@
             }, handle_error);
         };
 
-        //$scope.$watch('selectPlayer', function () {
-        //    $scope.get_scores_for_player_id($scope.selectPlayer);
-        //});
-
         $scope.get_scores_for_player_id = function (id) {
             if (!id) {
                 return;
@@ -84,6 +77,7 @@
             }, handle_error);
         };
 
+        reset_metrics();
         get_all();
     });
 

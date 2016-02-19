@@ -4,167 +4,179 @@
         padding-left: 10px;
         color: gold;
     }
+
+    #tabs {
+        margin-top: 15px;
+    }
+
+    #tabs > button {
+        margin-top: 15px;
+    }
 </style>
 <div>
-    Select Player:
-    <select ng-model="selectPlayer" ng-options="p.id as (p.playerNumber + ' ' + p.playerName) for p in players"></select>
-
-    <p>Currently selected: {{ {selected_p:selectPlayer} }}</p>
-    <p>PlayerNumber: {{ players[selectPlayer].playerNumber }}</p>
-    <p>PlayerNumber: {{ players[selectPlayer].playerName }}</p>
-    <p>PlayerNumber: {{ players[selectPlayer].playerLeagueAge }}</p>
 
     <div class="container">
-        <div>
+        <div class="row">
+            <div class="col-xs-12">
+                Select Player:
+                <select ng-model="selectPlayer" ng-options="p.id as (p.playerNumber + ' ' + p.playerName) for p in players"></select>
+            </div>
+        </div>
 
-            <ul class="nav nav-tabs">
-                <li class="active"><a showtab data-toggle="tab" href="#fielding">Fielding</a></li>
-                <li><a showtab data-toggle="tab" href="#hitting">Hitting</a></li>
-                <li><a showtab data-toggle="tab" href="#pitching">Pitching</a></li>
-            </ul>
+        <div class="row" id="tabs">
+            <div class="col-xs-12">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a showtab data-toggle="tab" href="#fielding">Fielding</a></li>
+                    <li><a showtab data-toggle="tab" href="#hitting">Hitting</a></li>
+                    <li><a showtab data-toggle="tab" href="#pitching">Pitching</a></li>
+                </ul>
+            </div>
+        </div>
 
-            <div class="tab-content">
+        <div class="row">
+            <div class="col-xs-12">
 
-                <div class="tab-pane active" id="fielding">
-                    <h1>Fielding</h1>
+                <div class="tab-content">
 
-                    <H4>Mechanics</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span class="stars glyphicon"
-                                  ng-click="f.fielding.mechanics = i"
-                                  ng-class="{'glyphicon-star': f.fielding.mechanics >= i, 'glyphicon-star-empty': f.fielding.mechanics < i}"
-                                  ng-repeat="i in possible"></span>
-                        </div>
-                    </div>
-                    <H4>Range</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span class="stars glyphicon"
-                                  ng-click="f.fielding.range = i"
-                                  ng-class="{'glyphicon-star': f.fielding.range >= i, 'glyphicon-star-empty': f.fielding.range < i}"
-                                  ng-repeat="i in possible"></span>
-                        </div>
-                    </div>
-                    <H4>Hands</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span class="stars glyphicon"
-                                  ng-click="f.fielding.hands = i"
-                                  ng-class="{'glyphicon-star': f.fielding.hands >= i, 'glyphicon-star-empty': f.fielding.hands < i}"
-                                  ng-repeat="i in possible"></span>
-                        </div>
-                    </div>
-                    <H4>Arm Strength</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span class="stars glyphicon"
-                                  ng-click="f.fielding.armStrength = i"
-                                  ng-class="{'glyphicon-star': f.fielding.armStrength >= i, 'glyphicon-star-empty': f.fielding.armStrength < i}"
-                                  ng-repeat="i in possible"></span>
-                        </div>
-                    </div>
-                    <H4>Fielding Note</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <textarea class="form-control" rows="2" ng-model="f.fielding.fieldingNote"></textarea>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <button type="button" class="btn btn-success" ng-disabled="selectPlayer === 0" ng-click="add('fielding')">Add</button>
-                        </div>
-                    </div>
-                </div>
+                    <div class="tab-pane active" id="fielding">
+                        <h1>Fielding</h1>
 
-                <div class="tab-pane" id="hitting">
-                    <h1>Hitting</h1>
+                        <H4>Mechanics</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="stars glyphicon"
+                                      ng-click="f.fielding.mechanics = i"
+                                      ng-class="{'glyphicon-star': f.fielding.mechanics >= i, 'glyphicon-star-empty': f.fielding.mechanics < i}"
+                                      ng-repeat="i in possible"></span>
+                            </div>
+                        </div>
+                        <H4>Range</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="stars glyphicon"
+                                      ng-click="f.fielding.range = i"
+                                      ng-class="{'glyphicon-star': f.fielding.range >= i, 'glyphicon-star-empty': f.fielding.range < i}"
+                                      ng-repeat="i in possible"></span>
+                            </div>
+                        </div>
+                        <H4>Hands</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="stars glyphicon"
+                                      ng-click="f.fielding.hands = i"
+                                      ng-class="{'glyphicon-star': f.fielding.hands >= i, 'glyphicon-star-empty': f.fielding.hands < i}"
+                                      ng-repeat="i in possible"></span>
+                            </div>
+                        </div>
+                        <H4>Arm Strength</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="stars glyphicon"
+                                      ng-click="f.fielding.armStrength = i"
+                                      ng-class="{'glyphicon-star': f.fielding.armStrength >= i, 'glyphicon-star-empty': f.fielding.armStrength < i}"
+                                      ng-repeat="i in possible"></span>
+                            </div>
+                        </div>
+                        <H4>Fielding Note</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <textarea class="form-control" rows="2" ng-model="f.fielding.fieldingNote"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-success" ng-disabled="selectPlayer === 0" ng-click="add('fielding')">Add</button>
+                            </div>
+                        </div>
+                    </div>
 
-                    <H4>Mechanics</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span class="stars glyphicon"
-                                  ng-click="f.hitting.mechanics = i"
-                                  ng-class="{'glyphicon-star': f.hitting.mechanics >= i, 'glyphicon-star-empty': f.hitting.mechanics < i}"
-                                  ng-repeat="i in possible"></span>
-                        </div>
-                    </div>
-                    <H4>Power</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span class="stars glyphicon"
-                                  ng-click="f.hitting.power = i"
-                                  ng-class="{'glyphicon-star': f.hitting.power >= i, 'glyphicon-star-empty': f.hitting.power < i}"
-                                  ng-repeat="i in possible"></span>
-                        </div>
-                    </div>
-                    <H4>Contact</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span class="stars glyphicon"
-                                  ng-click="f.hitting.contact = i"
-                                  ng-class="{'glyphicon-star': f.hitting.contact >= i, 'glyphicon-star-empty': f.hitting.contact < i}"
-                                  ng-repeat="i in possible"></span>
-                        </div>
-                    </div>
-                    <H4>Hitting Note</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <textarea class="form-control" rows="2" ng-model="f.hitting.hittingNote"></textarea>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <button type="button" class="btn btn-success" ng-click="add('hitting')">Add</button>
-                        </div>
-                    </div>
-                </div>
+                    <div class="tab-pane" id="hitting">
+                        <h1>Hitting</h1>
 
-                <div class="tab-pane" id="pitching">
-                    <h1>Pitching</h1>
+                        <H4>Mechanics</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="stars glyphicon"
+                                      ng-click="f.hitting.mechanics = i"
+                                      ng-class="{'glyphicon-star': f.hitting.mechanics >= i, 'glyphicon-star-empty': f.hitting.mechanics < i}"
+                                      ng-repeat="i in possible"></span>
+                            </div>
+                        </div>
+                        <H4>Power</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="stars glyphicon"
+                                      ng-click="f.hitting.power = i"
+                                      ng-class="{'glyphicon-star': f.hitting.power >= i, 'glyphicon-star-empty': f.hitting.power < i}"
+                                      ng-repeat="i in possible"></span>
+                            </div>
+                        </div>
+                        <H4>Contact</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="stars glyphicon"
+                                      ng-click="f.hitting.contact = i"
+                                      ng-class="{'glyphicon-star': f.hitting.contact >= i, 'glyphicon-star-empty': f.hitting.contact < i}"
+                                      ng-repeat="i in possible"></span>
+                            </div>
+                        </div>
+                        <H4>Hitting Note</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <textarea class="form-control" rows="2" ng-model="f.hitting.hittingNote"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-success" ng-disabled="selectPlayer === 0"  ng-click="add('hitting')">Add</button>
+                            </div>
+                        </div>
+                    </div>
 
-                    <H4>Mechanics</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span class="stars glyphicon"
-                                  ng-click="f.pitching.mechanics = i"
-                                  ng-class="{'glyphicon-star': f.pitching.mechanics >= i, 'glyphicon-star-empty': f.pitching.mechanics < i}"
-                                  ng-repeat="i in possible"></span>
+                    <div class="tab-pane" id="pitching">
+                        <h1>Pitching</h1>
+
+                        <H4>Mechanics</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="stars glyphicon"
+                                      ng-click="f.pitching.mechanics = i"
+                                      ng-class="{'glyphicon-star': f.pitching.mechanics >= i, 'glyphicon-star-empty': f.pitching.mechanics < i}"
+                                      ng-repeat="i in possible"></span>
+                            </div>
                         </div>
-                    </div>
-                    <H4>Velocity</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span class="stars glyphicon"
-                                  ng-click="f.pitching.velocity = i"
-                                  ng-class="{'glyphicon-star': f.pitching.velocity >= i, 'glyphicon-star-empty': f.pitching.velocity < i}"
-                                  ng-repeat="i in possible"></span>
+                        <H4>Velocity</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="stars glyphicon"
+                                      ng-click="f.pitching.velocity = i"
+                                      ng-class="{'glyphicon-star': f.pitching.velocity >= i, 'glyphicon-star-empty': f.pitching.velocity < i}"
+                                      ng-repeat="i in possible"></span>
+                            </div>
                         </div>
-                    </div>
-                    <H4>Command</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span class="stars glyphicon"
-                                  ng-click="f.pitching.command = i"
-                                  ng-class="{'glyphicon-star': f.pitching.command >= i, 'glyphicon-star-empty': f.pitching.command < i}"
-                                  ng-repeat="i in possible"></span>
+                        <H4>Command</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span class="stars glyphicon"
+                                      ng-click="f.pitching.command = i"
+                                      ng-class="{'glyphicon-star': f.pitching.command >= i, 'glyphicon-star-empty': f.pitching.command < i}"
+                                      ng-repeat="i in possible"></span>
+                            </div>
                         </div>
-                    </div>
-                    <H4>Pitching Note</H4>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <textarea class="form-control" rows="2" ng-model="f.pitching.pitchingNote"></textarea>
+                        <H4>Pitching Note</H4>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <textarea class="form-control" rows="2" ng-model="f.pitching.pitchingNote"></textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6">
-                            <button type="button" class="btn btn-success" ng-click="add('pitching')">Add</button>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="button" class="btn btn-success" ng-disabled="selectPlayer === 0"  ng-click="add('pitching')">Add</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
 
 
