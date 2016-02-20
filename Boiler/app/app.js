@@ -30,37 +30,23 @@
         };
     });
 
-    app.factory('ResourceGenerator', function ($resource) {
-        var get_resource = function (url) {
-            var res = $resource(url, null, {
-                'update': { method: 'PUT' },
-                'insert': { method: 'POST' },
-            });
-            return {
-                query: function () {
-                    return res.query().$promise;
-                },
-                get: function (id) {
-                    return res.get({ id: id }).$promise;
-                },
-                insert: function (data) {
-                    return res.insert(data).$promise;
-                },
-                del: function (data) {
-                    return res.delete(data).$promise;
-                },
-                update: function (data) {
-                    return res.update(data).$promise;
-                }
-            };
-        };
-        return {
-            GetResource: get_resource
-        };
-    });
-
     app.config(function ($httpProvider) {
         $httpProvider.interceptors.push('AuthorizationRedirectInterceptor');
+    });
+
+    app.factory('PlayerData', function ($http) {
+        var query = function () {
+            return $http.get('/api/player/');
+        };
+
+        var scoresForPlayer = function (id) {
+            return $http.get('/api/player/scoresForPlayer/' + id);
+        };
+
+        return {
+            query: query,
+            scoresForPlayer: scoresForPlayer
+        }
     });
 
     app.directive('selectOnClick', ['$window', function ($window) {

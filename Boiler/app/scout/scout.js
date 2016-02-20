@@ -3,21 +3,6 @@
     
     var app = angular.module('app');
 
-    app.factory('PlayerData', function( $http) {
-        var query = function() {
-            return $http.get('/api/player/');
-        };
-
-        var scoresForPlayer = function(id) {
-            return $http.get('/api/player/scoresForPlayer/' + id);
-        };
-
-        return {
-            query: query,
-            scoresForPlayer: scoresForPlayer
-        }
-    });
-
     app.controller('scoutController', function ($scope, Notification, PlayerData) {
 
         $scope.p = {};

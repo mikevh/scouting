@@ -109,15 +109,11 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OrmLite.Core1.cs</LastGenOutput>
     </None>
-    <Content Include="app\fielding\fielding.js" />
-    <Content Include="app\fielding\fielding.tmpl.html" />
     <Content Include="app\index.js" />
     <Content Include="app\player\player.js" />
     <Content Include="app\player\player.tmpl.html" />
     <Content Include="app\scout\scout.js" />
     <Content Include="app\scout\scout.tmpl.html" />
-    <Content Include="app\todo\todo.tmpl.html" />
-    <Content Include="app\todo\todo.js" />
     <Content Include="app\user\user.js" />
     <Content Include="app\user\user.tmpl.html" />
     <Content Include="lib\angular-ui-notification\dist\angular-ui-notification.min.css" />

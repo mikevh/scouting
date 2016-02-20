@@ -105,6 +105,8 @@ namespace Boiler.Services
         public decimal? Hands { get; set; }
         public decimal? ArmStrength { get; set; }
         public string FieldingNote { get; set; }
+        public DateTime CreatedDate { get; set; }
+
     }
 
     public class DeleteFieldingRequestValidator : AbstractValidator<DeleteFieldingRequest>
