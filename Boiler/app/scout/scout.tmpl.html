@@ -9,19 +9,18 @@
         margin-top: 15px;
     }
 
-    #tabs > button {
-        margin-top: 15px;
-    }
+        #tabs > button {
+            margin-top: 15px;
+        }
 </style>
-<div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                Select Player:
-                <select ng-model="selectPlayer" ng-options="p.id as (p.playerNumber + ' ' + p.playerName) for p in players"></select>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            Select Player:
+            <select ng-model="selectPlayer" ng-options="p.id as (p.playerNumber + ' ' + p.playerName) for p in players" ng-change="get_scores_for_selectPlayer()"></select>
         </div>
+        </divget_scores_for_player_id
 
         <div class="row" id="tabs">
             <div class="col-xs-12">
@@ -128,7 +127,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-6">
-                                <button type="button" class="btn btn-success" ng-disabled="selectPlayer === 0"  ng-click="add('hitting')">Add</button>
+                                <button type="button" class="btn btn-success" ng-disabled="selectPlayer === 0" ng-click="add('hitting')">Add</button>
                             </div>
                         </div>
                     </div>
@@ -171,7 +170,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-6">
-                                <button type="button" class="btn btn-success" ng-disabled="selectPlayer === 0"  ng-click="add('pitching')">Add</button>
+                                <button type="button" class="btn btn-success" ng-disabled="selectPlayer === 0" ng-click="add('pitching')">Add</button>
                             </div>
                         </div>
                     </div>
@@ -179,6 +178,10 @@
             </div>
         </div>
 
-
+        <div class="row" ng-repeat="s in scores">
+            <span ng-if="s.metric === 'fielding'">Fielding - Mechanics: {{s.mechanics}} - Range: {{s.range}} -- Hands: {{s.hands}} -- {{s.from_now}}</span>
+            <span ng-if="s.metric === 'hitting'">Hitting - Mechanics: {{s.mechanics}} - Power: {{s.power}} -- Contact: {{s.contact}} -- {{s.from_now}}</span>
+            <span ng-if="s.metric === 'pitching'">Pitching - Mechanics: {{s.mechanics}} - Velocity: {{s.velocity}} -- Command: {{s.command}} -- {{s.from_now}}</span>
+        </div>
     </div>
 </div>

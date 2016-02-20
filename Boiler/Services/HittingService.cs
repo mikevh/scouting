@@ -102,6 +102,7 @@ namespace Boiler.Services
         public decimal? Power { get; set; }
         public decimal? Contact { get; set; }
         public string HittingNote { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 
     public class DeleteHittingRequestValidator : AbstractValidator<DeleteHittingRequest>

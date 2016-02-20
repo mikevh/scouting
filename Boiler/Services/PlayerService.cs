@@ -54,18 +54,15 @@ namespace Boiler.Services
             return new HttpResult { StatusCode = HttpStatusCode.Accepted };
         }
 
-        public object Put(GetPlayerScoresRequest request) {
+        public object Get(GetPlayerScoresRequest request) {
 
             var fielding = fielding_repository.Where(new {PlayerId = request.Id})
-                .OrderByDescending(x => x.CreatedDate)
                 .Select(x => x.ConvertTo<FieldingResponse>());
 
             var hitting = hitting_repository.Where(new {PlayerId = request.Id})
-                .OrderByDescending(x => x.CreatedDate)
                 .Select(x => x.ConvertTo<HittingResponse>());
 
             var pitching = pitching_repository.Where(new {PlayerId = request.Id})
-                .OrderByDescending(x => x.CreatedDate)
                 .Select(x => x.ConvertTo<PitchingResponse>());
 
             var rv = new PlayerScoresResponse {
@@ -98,8 +95,8 @@ namespace Boiler.Services
         public int PlayerId { get; set; }
     }
 
-    [Route("/player/scoresForPlayer", "PUT")]
-    [Route("/player/scoresForPlayer/{id}", "PUT")]
+    [Route("/player/scoresForPlayer", "GET")]
+    [Route("/player/scoresForPlayer/{id}", "GET")]
     public class GetPlayerScoresRequest : IReturn<PlayerScoresResponse>
     {
         public int Id { get; set; }

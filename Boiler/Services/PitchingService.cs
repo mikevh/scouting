@@ -102,6 +102,7 @@ namespace Boiler.Services
         public decimal? Velocity { get; set; }
         public decimal? Command { get; set; }
         public string PitchingNote { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 
     public class DeletePitchingRequestValidator : AbstractValidator<DeletePitchingRequest>

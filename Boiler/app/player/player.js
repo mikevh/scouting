@@ -3,10 +3,6 @@
 
     var app = angular.module('app');
 
-    app.factory('PlayerData', function ($http, ResourceGenerator) {
-		return ResourceGenerator.GetResource('/api/player/:id');
-	});
-
     app.controller('playerController', function ($scope, $timeout, PlayerData) {
 
         $scope.p = {};

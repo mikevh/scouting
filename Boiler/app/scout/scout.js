@@ -3,14 +3,22 @@
     
     var app = angular.module('app');
 
-    app.factory('PlayerData', function($resource, $http) {
-        return $resource('/api/player/:id', null, {
-            scoresForPlayer: { url: '/api/player/scoresForPlayer' }
+    app.factory('PlayerData', function( $http) {
+        var query = function() {
+            return $http.get('/api/player/');
+        };
 
-        });
+        var scoresForPlayer = function(id) {
+            return $http.get('/api/player/scoresForPlayer/' + id);
+        };
+
+        return {
+            query: query,
+            scoresForPlayer: scoresForPlayer
+        }
     });
 
-    app.controller('scoutController', function ($scope, Notification, PlayerData, $resource, $http) {
+    app.controller('scoutController', function ($scope, Notification, PlayerData) {
 
         $scope.p = {};
         $scope.selectPlayer = 0;
@@ -60,20 +68,35 @@
 
         var get_all = function () {
             PlayerData.query().then(function (result) {
-                $scope.players = result;
+                $scope.players = result.data;
                 $scope.players.unshift({ id: 0, playerName: '--Select Player--' });
             }, handle_error);
         };
 
-        $scope.get_scores_for_player_id = function (id) {
-            if (!id) {
+        var flatten_scores = function(scores) {
+            var metrics = ['fielding', 'hitting', 'pitching'];
+            var flat = [];
+
+            _.each(metrics, function(metric) {
+                _.each(scores[metric], function(score) {
+                    var score_moment = moment(score.createdDate);
+                    score.from_now = score_moment.fromNow();
+                    score.metric = metric;
+
+                    flat.push(score);
+                });
+            });
+
+            $scope.scores = _.sortBy(flat, function (s) { return s.createdDate; }).reverse();
+        };
+
+        $scope.get_scores_for_selectPlayer = function () {
+            if (!$scope.selectPlayer) {
                 return;
             }
             
-            PlayerData.scoresForPlayer({ id: id }, {}).$promise.then(function (result) {
-                debugger;
-                console.log(result);
-                // todo: handle results
+            PlayerData.scoresForPlayer($scope.selectPlayer).then(function (result) {
+                flatten_scores(result.data);
             }, handle_error);
         };
 
