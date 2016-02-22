@@ -8,7 +8,8 @@
         $scope.p = {};
 
         var get_all = function() {
-            PlayerData.query().then(function (result) {
+            PlayerData.query().$promise.then(function (result) {
+                console.log($scope.players);
                 $scope.players = result;
             });
         };

@@ -121,6 +121,7 @@
     <Content Include="lib\bootstrap\dist\css\bootstrap.min.css" />
     <Content Include="lib\bootstrap\dist\js\bootstrap.min.js" />
     <Content Include="lib\jquery\dist\jquery.min.js" />
+    <Content Include="lib\momentjs\min\moment.min.js" />
     <Content Include="login.html" />
     <Content Include="Models\OrmLite.Poco.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

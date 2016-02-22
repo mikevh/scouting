@@ -51,15 +51,19 @@
             }
         };
 
+        $scope.players = [];
+
         var get_all = function () {
             PlayerData.query().then(function (result) {
                 $scope.players = result.data;
-                $scope.players.unshift({ id: 0, playerName: '--Select Player--' });
+                //$scope.players.unshift({ id: 0, playerName: '--Select Player--' });
             }, handle_error);
         };
 
         var flatten_scores = function(scores) {
+
             var metrics = ['fielding', 'hitting', 'pitching'];
+
             var flat = [];
 
             _.each(metrics, function(metric) {
@@ -75,13 +79,21 @@
             $scope.scores = _.sortBy(flat, function (s) { return s.createdDate; }).reverse();
         };
 
+        $scope.$watch('selectPlayer', function () {
+            $scope.get_scores_for_selectPlayer();
+        });
+
         $scope.get_scores_for_selectPlayer = function () {
             if (!$scope.selectPlayer) {
                 return;
             }
-            
             PlayerData.scoresForPlayer($scope.selectPlayer).then(function (result) {
-                flatten_scores(result.data);
+                
+                flatten_scores(result.data)
+
+                // flatten the fie
+
+                //$scope.scores = result.data;
             }, handle_error);
         };
 
