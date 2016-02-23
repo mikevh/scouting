@@ -12,8 +12,9 @@ using ServiceStack.FluentValidation;
 
 namespace Boiler.Services
 {
+    [Authenticate]
     [RequiredRole("Admin")]
-    public class UserService : SecureBaseService
+    public class UserService : Service
     {
         public IUserRepository user_repository { get; set; }
         public IUserAuthRepository userauth_repository { get; set; }

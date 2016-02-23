@@ -181,9 +181,6 @@
     <Compile Include="Models\Player.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Todo.cs">
-      <DependentUpon>OrmLite.Poco.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>OrmLite.Poco.tt</DependentUpon>
     </Compile>
@@ -192,16 +189,10 @@
     <Compile Include="Repositories\FieldingRepository.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
-    <Compile Include="Repositories\TodoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="Services\PitchingService.cs" />
-    <Compile Include="Services\HittingService.cs" />
-    <Compile Include="Services\FieldingService.cs" />
     <Compile Include="Services\PlayerService.cs" />
-    <Compile Include="Services\SecureBaseService.cs" />
-    <Compile Include="Services\TodoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />

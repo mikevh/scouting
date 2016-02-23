@@ -24,7 +24,7 @@ namespace Boiler
 {
     public class AppHost : AppHostBase
     {
-        public AppHost() : base("Hello", typeof(TodoService).Assembly) {
+        public AppHost() : base("Scout", typeof(PlayerService).Assembly) {
             
         }
 
@@ -44,7 +44,7 @@ namespace Boiler
             container.Register<ICredentialsDbConnectionFactory>(c => new CredentialsDbConnectionFactory());
             container.Register<ICacheClient>(new MemoryCacheClient { FlushOnDispose = false });
             container.RegisterApplicationDependencies();
-            container.RegisterValidators(typeof(TodoService).Assembly);
+            container.RegisterValidators(typeof(PlayerService).Assembly);
             ConfigureAuth(container);
             RegisterOrmLiteFilters(container);
             //CreateAuthDb(container);
