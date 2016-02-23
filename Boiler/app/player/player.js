@@ -8,9 +8,8 @@
         $scope.p = {};
 
         var get_all = function() {
-            PlayerData.query().$promise.then(function (result) {
-                console.log($scope.players);
-                $scope.players = result;
+            PlayerData.query().then(function (result) {
+                $scope.players = result.data;
             });
         };
 
@@ -21,17 +20,17 @@
         var select_last_input = function() {
             $timeout(function() {
                 var inputs = angular.element(document).find('input');
-                inputs[inputs.length - 2].focus();
+                inputs[inputs.length - 3].focus();
             });
         };
 
         $scope.add = function() {
-            $scope.players.push({ playerNumber: p.playerNumber, playerName: p.playerName, leagueAge: p.leagueAge });
+            $scope.players.push({ playerNumber: '', playerName: '', leagueAge: '' });
             select_last_input();
         };
 
         $scope.delete = function(p) {
-            PlayerData.del(p).then(function (result) {
+            PlayerData.del(p).then(function () {
                 get_all();
             });
         };

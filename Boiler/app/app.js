@@ -43,8 +43,18 @@
             return $http.get('/api/player/scoresForPlayer/' + id);
         };
 
+        var update = function(data) {
+            return $http.put('/api/player', data);
+        };
+
+        var insert = function(data) {
+            return $http.post('/api/player', data);
+        }
+
         return {
             query: query,
+            update: update,
+            insert: insert,
             scoresForPlayer: scoresForPlayer
         }
     });
@@ -63,40 +73,7 @@
         };
     }]);
 
-    app.directive('bsDropdown', function($compile) {
-        return {
-            scope: {
-                items: '=dropdownData',
-                doSelect: '&select',
-                selectedItem: '=preselectedItem'
-            },
-            link: function (scope, element, attrs) {
-                var html = '<div class="btn-group" >' +
-                    '<button id="label" class="btn btn-label btn-info">Select Player</button>' +
-                    '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown">' +
-                    '<span class="caret"></span></button>'
-
-                + '<ul class="dropdown-menu">' +
-                    '<li ng-repeat="i in items"><a data-ng-click="selectVal(i)">{{i.playerNumber}}  - {{i.playerName}}</a></li>' +
-                    '</ul>' +
-                    '</div>';
-
-                element.append($compile(html)(scope));
-                
-                for (var i = 0; i < scope.items.length; i++) {
-                    if (scope.items[i].id === scope.selectedItem) {
-                        scope.bSelectedItem = scope.items[i];
-                        break;
-                    }
-                }
-                
-                scope.selectVal = function (item) {
-                    $('button#label', element).html(item.playerNumber + '-' + item.playerName);
-                    scope.doSelect({ selectedVal: item.id });
-                };
-            }
-        };
-    });
+    
 
     app.directive('showtab', function() {
         return {
