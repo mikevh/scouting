@@ -3,28 +3,25 @@
     <tr>
         <th></th>
         <th>Username</th>
-        <th>Name</th>
         <th>Email</th>
         <th>Administrator</th>
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="u in users">
-        <td style="width: 70px">
-            <span ng-click="edit(u)" class="glyphicon glyphicon-pencil"></span>
-            <span ng-click="delete(u)" class="glyphicon glyphicon-minus-sign"></span>
-            <span ng-click="password(u)" class="glyphicon glyphicon-alert"></span>
-        </td>
-        <td ng-show="!is_editing(u) || u.id !== 0">{{u.username}}</td>
-        <td ng-show="!is_editing(u)">{{u.name}}</td>
-        <td ng-show="!is_editing(u)">{{u.email}}</td>
+        <tr ng-repeat="u in users">
+            <td style="width: 70px">
+                <span ng-click="edit(u)" class="glyphicon glyphicon-pencil"></span>
+                <span ng-click="delete(u)" class="glyphicon glyphicon-minus-sign"></span>
+                <span ng-click="password(u)" class="glyphicon glyphicon-alert"></span>
+            </td>
+            <td ng-show="!is_editing(u) || u.id !== 0">{{u.userName}}</td>
+            <td ng-show="!is_editing(u)">{{u.email}}</td>
 
-        <td ng-show="is_editing(u) && u.id === 0"><input type="text" ng-model="u.username"/></td>
-        <td ng-show="is_editing(u)"><input type="text" ng-model="u.name"/></td>
-        <td ng-show="is_editing(u)"><input type="text" ng-model="u.email"/></td>
+            <td ng-show="is_editing(u) && u.id === 0"><input type="text" ng-model="u.username" /></td>
+            <td ng-show="is_editing(u)"><input type="text" ng-model="u.email" /></td>
 
-        <td><input type="checkbox" ng-model="u.isAdmin" ng-disabled="!is_editing(u)"/></td>
-    </tr>
+            <td><input type="checkbox" ng-model="u.isAdmin" ng-disabled="!is_editing(u)" /></td>
+        </tr>
     </tbody>
     <tfoot>
         <tr>
