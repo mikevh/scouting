@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="lib/angular-ui-notification/dist/angular-ui-notification.min.css" rel="stylesheet"/>
-
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body ng-app="app" ng-cloak ng-controller="layoutController">
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -36,9 +36,10 @@
                 </div>
                 <button type="submit" class="btn btn-success">Sign in</button>
             </form>
-            <div class="navbar-right" ng-show="logged_in === true" style="color: white">
-                <button class="btn btn-link" ng-click="submit_logout()">Log Off</button>
-            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" ng-click="submit_logout()" ng-show="logged_in === true">Logout</a></li>
+                <li><i style="padding: 10px" class="fa fa-circle-o-notch fa-spin fa-2x fa-inverse" ng-show="logged_in === undefined"></i></li>
+            </ul>
         </div>
     </div>
 </nav>
