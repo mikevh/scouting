@@ -18,8 +18,8 @@
 
     app.factory('AuthorizationRedirectInterceptor', function ($q, $window) {
         var responseError = function (responseError) {
-            if (responseError.status === 401) { // unauthorized
-                $window.location = "/login.html";//"?redirectUrl=" + encodeURIComponent(document.URL);
+            if (responseError.status === 401 && responseError.config.url.indexOf('/api/auth') !== 0) { // unauthorized
+                $window.location = "/index.html";//"?redirectUrl=" + encodeURIComponent(document.URL);
                 return null;
             }
             return $q.reject(responseError);
@@ -28,6 +28,12 @@
         return {
             responseError: responseError
         };
+    });
+
+    app.config(function(NotificationProvider) {
+        NotificationProvider.setOptions({
+            positionX: 'left'
+        });
     });
 
     app.config(function ($httpProvider) {
@@ -73,13 +79,10 @@
         };
     }]);
 
-    
-
     app.directive('showtab', function() {
         return {
             link: function(scope, element, attrs) {
                 element.click(function (e) {
-                    console.log(element);
                     e.preventDefault();
                     $(element).tab('show');
                 });

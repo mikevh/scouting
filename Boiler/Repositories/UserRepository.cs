@@ -1,77 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
 using Boiler.Models;
 using ServiceStack.Auth;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using ServiceStack.OrmLite.Dapper;
 
 namespace Boiler.Repositories
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository
     {
-        void UpdatePassword(string username, string password);
+        List<UserAuth> All();
+        UserAuth GetById(int id);
+        void Delete(int id);
+        void Insert(UserAuth user, string password);
+        void Update(UserAuth user, string passowrd = null);
     }
 
-    public class UserRepository : Repository<User>, IUserRepository
+    public class UserRepository : IUserRepository
     {
         public IUserAuthRepository userauth_repository { get; set; }
+        private readonly IDbConnectionFactory _connectionFactory;
 
-        public UserRepository(IDbConnectionFactory connectionFactory) : base(connectionFactory) {}
-
-        public void UpdatePassword(string username, string password) {
-            var userauth = userauth_repository.GetUserAuthByUserName(username);
-            userauth_repository.UpdateUserAuth(userauth, userauth, password);
+        public UserRepository(IDbConnectionFactory connectionFactory) {
+            _connectionFactory = connectionFactory;
         }
 
-        public new int Insert(User model, IDbTransaction transaction = null) {
-            using (var trans = OpenConnection().OpenTransaction()) {
-                var rv = base.Insert(model, transaction);
-
-                var userauth =  userauth_repository.CreateUserAuth(new UserAuth {
-                    UserName = model.Username,
-                    Email = model.Email
-                }, model.Password);
-
-                userauth_repository.SaveUserAuth(userauth);
-
-                trans.Commit();
-                return rv;
+        public List<UserAuth> All() {
+            using (var c = Open()) {
+                return c.Select<UserAuth>();
             }
         }
 
-        public new int Update(User model, IDbTransaction transaction = null) {
-
-            base.Update(model, transaction);
-
-            var userauth = userauth_repository.GetUserAuthByUserName(model.Username);
-            userauth.Email = model.Email;
-            userauth_repository.UpdateUserAuth(userauth, userauth);
-
-            return model.Id;
+        public UserAuth GetById(int id) {
+            using (var c = Open()) {
+                return c.SingleById<UserAuth>(id);
+            }
         }
 
-        public new void Delete(int id, IDbTransaction transaction = null) {
+        public void Delete(int id) {
+            userauth_repository.DeleteUserAuth(id);
+        }
 
-            var conn = transaction?.Connection ?? OpenConnection();
-            var trans = transaction ?? conn.OpenTransaction();
+        public void Insert(UserAuth user, string password) {
+            var userauth = userauth_repository.CreateUserAuth(new UserAuth
+            {
+                UserName = user.UserName,
+                Email = user.Email
+            }, password);
 
-            var model = GetById(id);
-            base.Delete(id, transaction);
+            userauth_repository.SaveUserAuth(userauth);
+        }
 
-            var userauth = userauth_repository.GetUserAuthByUserName(model.Username);
-            userauth_repository.DeleteUserAuth(userauth.Id);
-
-            trans.Commit();
-
-            if (transaction == null) {
-                conn.Dispose();
-                trans.Dispose();
+        public void Update(UserAuth user, string password = null) {
+            var update = userauth_repository.GetUserAuthByUserName(user.UserName);
+            update.Email = user.Email;
+            if (password != null) {
+                userauth_repository.UpdateUserAuth(update, update, password);
             }
+            else {
+                userauth_repository.UpdateUserAuth(update, update);
+            }
+        }
+
+        private IDbConnection Open() {
+            return _connectionFactory.OpenDbConnection();
         }
     }
 }

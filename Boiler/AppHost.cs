@@ -58,7 +58,7 @@ namespace Boiler
 
             var auth_providers = new IAuthProvider[] { new CredentialsAuthProvider() };
             var auth_feature = new AuthFeature(() => new BoilerUserSession(), auth_providers) {
-                HtmlRedirect = "/login.html"
+                HtmlRedirect = "/index.html"
             };
             Plugins.Add(auth_feature);
         }
@@ -82,21 +82,18 @@ namespace Boiler
 
         private void CreateAuthDb(Container container) {
             var db = container.Resolve<ICredentialsDbConnectionFactory>();
-            var user_repo = container.Resolve<IUserRepository>();
-
             var repo = new OrmLiteAuthRepository(db);
             repo.DropAndReCreateTables();
 
-            // user_repo creates the userauthrecord
-            user_repo.Insert(new User {
-                Username = "admin",
-                Email = "admin@admin.com",
-                Password = "password",
-                Name = "administrator"
-            });
+            var userauth = repo.CreateUserAuth(new UserAuth
+            {
+                UserName = "admin",
+                Email = "admin@admin.com"
+            }, "password");
 
-            var admin_userauth = repo.GetUserAuthByUserName("admin");
-            repo.AssignRoles(admin_userauth, new [] { RoleNames.Admin });
+            repo.SaveUserAuth(userauth);
+
+            repo.AssignRoles(userauth, new [] { RoleNames.Admin });
         }
     }
 

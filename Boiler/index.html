@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="lib/angular-ui-notification/dist/angular-ui-notification.min.css" rel="stylesheet" />
+    <link href="lib/angular-ui-notification/dist/angular-ui-notification.min.css" rel="stylesheet"/>
+
 </head>
-<body ng-app="app" ng-cloak ng-controller="indexController">
+<body ng-app="app" ng-cloak ng-controller="layoutController">
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -26,19 +27,21 @@
                 <li><a href="#/player" ng-class="{active: is_active('/player')}">Players</a></li>
                 <li><a href="#/user" ng-class="{active: is_active('/user')}">Users</a></li>
             </ul>
-            <!--<form class="navbar-form navbar-right">
+            <form class="navbar-form navbar-right" ng-submit="submit_login()" ng-show="logged_in == false">
                 <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
+                    <input type="text" placeholder="Email" ng-model="login.user_name" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
+                    <input type="password" placeholder="Password" ng-model="login.password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success">Sign in</button>
-            </form>-->
+            </form>
+            <div class="navbar-right" ng-show="logged_in === true" style="color: white">
+                <button class="btn btn-link" ng-click="submit_logout()">Log Off</button>
+            </div>
         </div>
     </div>
 </nav>
-
 
 <div class="container" style="padding-top: 60px;">
     <ng-view></ng-view>
@@ -54,7 +57,8 @@
 <script src="lib/momentjs/min/moment.min.js"></script>
 
 <script src="app/app.js"></script>
-<script src="app/index.js"></script>
+<script src="app/layoutController.js"></script>
+<script src="app/indexController.js"></script>
 <script src="app/scout/scout.js"></script>
 <script src="app/player/player.js"></script>
 <script src="app/user/user.js"></script>

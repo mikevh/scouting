@@ -16,14 +16,14 @@ namespace Boiler.Services
     [RequiredRole("Admin")]
     public class UserService : Service
     {
-        public IUserRepository user_repository { get; set; }
         public IUserAuthRepository userauth_repository { get; set; }
+        public IUserRepository user_repository { get; set; }
 
         public object Get(GetUsersRequest request) {
             var data = user_repository.All();
             var response = data.Select(x => x.ConvertTo<UserResponse>()).ToList();
 
-            response.ForEach(x => x.IsAdmin = userauth_repository.GetUserAuthByUserName(x.Username).Roles.Contains(RoleNames.Admin));
+            response.ForEach(x => x.IsAdmin = userauth_repository.GetUserAuthByUserName(x.UserName).Roles.Contains(RoleNames.Admin));
 
             return response;
         }
@@ -31,27 +31,25 @@ namespace Boiler.Services
         public object Get(GetUserRequest request) {
             var data = user_repository.GetById(request.Id);
             var response = data.ConvertTo<UserResponse>();
-            response.IsAdmin = userauth_repository.GetUserAuthByUserName(response.Username).Roles.Contains(RoleNames.Admin);
+            response.IsAdmin = userauth_repository.GetUserAuthByUserName(response.UserName).Roles.Contains(RoleNames.Admin);
 
             return response;
         }
 
         public object Post(CreateUserRequest request) {
-            var data = request.ConvertTo<User>();
-            data.Password = "password";
-            var id = user_repository.Insert(data);
-            Response.StatusCode = (int)HttpStatusCode.Created;
+            var data = request.ConvertTo<UserAuth>();
+            user_repository.Insert(data, "password");
 
-            return Get(new GetUserRequest { Id = id });
+            return new HttpResult { StatusCode = HttpStatusCode.Created };
         }
 
         public object Put(UpdateUserRequest request) {
             var data = user_repository.GetById(request.Id);
 
-            var object_to_update = request.ConvertTo<User>();
+            var object_to_update = request.ConvertTo<UserAuth>();
 
             // cannot update username
-            object_to_update.Username = data.Username;
+            object_to_update.UserName = data.UserName;
             user_repository.Update(object_to_update);
 
             Response.StatusCode = (int)HttpStatusCode.Accepted;
@@ -65,7 +63,7 @@ namespace Boiler.Services
         }
 
         public object Put(UpdateUserPasswordRequest request) {
-            user_repository.UpdatePassword(request.Username, request.Password);
+            user_repository.Update(request.ConvertTo<UserAuth>(), request.Password);
             return new HttpResult { StatusCode = HttpStatusCode.Accepted };
         }
     }
@@ -73,7 +71,7 @@ namespace Boiler.Services
     [Route("/user/changepassword", "PUT")]
     public class UpdateUserPasswordRequest
     {
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public string Password { get; set; }
     }
 
@@ -94,7 +92,7 @@ namespace Boiler.Services
     public class CreateUserRequest : IReturn<UserResponse>
     {
         public string Name { get; set; }
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public bool IsAdmin { get; set; }
@@ -106,7 +104,7 @@ namespace Boiler.Services
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
     }
@@ -122,7 +120,7 @@ namespace Boiler.Services
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
     }
@@ -130,7 +128,7 @@ namespace Boiler.Services
     public class UpdateUserPasswordRequestValidator : AbstractValidator<UpdateUserPasswordRequest>
     {
         public UpdateUserPasswordRequestValidator() {
-            RuleFor(x => x.Username).NotEmpty();
+            RuleFor(x => x.UserName).NotEmpty();
             RuleFor(x => x.Password).NotEmpty();
         }
     }
