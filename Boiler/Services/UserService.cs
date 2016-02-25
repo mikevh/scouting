@@ -92,7 +92,6 @@ namespace Boiler.Services
     public class CreateUserRequest : IReturn<UserResponse>
     {
         public string Name { get; set; }
-        public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public bool IsAdmin { get; set; }
@@ -103,7 +102,6 @@ namespace Boiler.Services
     public class UpdateUserRequest : IReturn<UserResponse>
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
@@ -119,7 +117,6 @@ namespace Boiler.Services
     public class UserResponse
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
@@ -146,7 +143,6 @@ namespace Boiler.Services
         public UpdateUserRequestValidator()
         {
             RuleFor(x => x.Id).NotEmpty();
-            RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Email).NotEmpty();
         }
     }

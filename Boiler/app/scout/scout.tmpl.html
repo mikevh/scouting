@@ -9,9 +9,9 @@
         margin-top: 15px;
     }
 
-        #tabs > button {
-            margin-top: 15px;
-        }
+    #tabs > button {
+        margin-top: 15px;
+    }
 </style>
 
 <div class="container">
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="row" id="tabs">
+    <div class="row" id="tabs" ng-show="selectPlayer">
         <div class="col-xs-12">
             <ul class="nav nav-tabs">
                 <li class="active"><a showtab data-toggle="tab" href="#fielding">Fielding</a></li>
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" ng-show="selectPlayer">
         <div class="col-xs-12">
 
             <div class="tab-content">
