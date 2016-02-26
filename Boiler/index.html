@@ -11,7 +11,7 @@
 </head>
 <body ng-app="app" ng-cloak ng-controller="layoutController">
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+    <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -20,6 +20,9 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#/">Scout</a>
+            <ul class="visible-xs nav navbar-nav pull-right" style="padding-right: 10px" ng-show="logged_in === false">
+                <li><a href="#" data-target="#navbar" data-toggle="collapse">Login</a></li>
+            </ul>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
