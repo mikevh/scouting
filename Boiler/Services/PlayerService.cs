@@ -199,41 +199,6 @@ namespace Boiler.Services
         public string PlayerNote { get; set; }
     }
 
-    public class PitchingResponse
-    {
-        public int Id { get; set; }
-        public int PlayerId { get; set; }
-        public decimal? Mechanics { get; set; }
-        public decimal? Velocity { get; set; }
-        public decimal? Command { get; set; }
-        public string PitchingNote { get; set; }
-        public DateTime CreatedDate { get; set; }
-    }
-
-    public class FieldingResponse
-    {
-        public int Id { get; set; }
-        public int PlayerId { get; set; }
-        public decimal? Mechanics { get; set; }
-        public decimal? Range { get; set; }
-        public decimal? Hands { get; set; }
-        public decimal? ArmStrength { get; set; }
-        public string FieldingNote { get; set; }
-        public DateTime CreatedDate { get; set; }
-
-    }
-
-    public class HittingResponse
-    {
-        public int Id { get; set; }
-        public int PlayerId { get; set; }
-        public decimal? Mechanics { get; set; }
-        public decimal? Power { get; set; }
-        public decimal? Contact { get; set; }
-        public string HittingNote { get; set; }
-        public DateTime CreatedDate { get; set; }
-    }
-
     public class GetPlayerScoresRequestValidator : AbstractValidator<GetPlayerScoresRequest>
     {
         public GetPlayerScoresRequestValidator() {
