@@ -4,8 +4,8 @@
     var app = angular.module('app');
 
     app.controller('layoutController', function ($scope, $location, Notification, $http) {
-        
-        $scope.is_active = function(route) {
+
+        $scope.is_active = function (route) {
             return $location.path() === route;
         };
 
@@ -18,7 +18,7 @@
         };
 
         var login_error = function (data) {
-            console.log(data);
+            logged_in = false;
             Notification.error(data.statusText);
         };
 
@@ -42,7 +42,8 @@
             }
         };
 
-        $scope.submit_login = function() {
+        $scope.submit_login = function () {
+            $scope.logged_in = undefined;
             $http.post('/api/auth/credentials',
                 {
                     userName: $scope.login.user_name,

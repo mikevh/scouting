@@ -106,6 +106,9 @@
     <Content Include="lib\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="lib\bootstrap\dist\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="lib\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="lib\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="lib\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="lib\font-awesome\fonts\fontawesome-webfont.ttf" />
     <None Include="Models\OrmLite.Core.ttinclude">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OrmLite.Core1.cs</LastGenOutput>
